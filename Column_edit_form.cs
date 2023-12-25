@@ -10,7 +10,7 @@
             InitializeComponent();
         }
 
-        public static void EmptySpaceFixer()
+        public static void FixEmptySpaces()
         {
             for (var v = 0; v < _dataGridView.Columns.Count; v++)
             {
@@ -25,7 +25,7 @@
             }
         }
 
-        private void BTN_OK_Click(object sender, EventArgs e)
+        private void OnOkClicked(object sender, EventArgs e)
         {
             _dataGridView.ClearSelection();
             if (TXT_BOX_COLUMN.Enabled)
@@ -45,7 +45,7 @@
 
             }
 
-            EmptySpaceFixer();
+            FixEmptySpaces();
             _dataGridView.ClearSelection();
         }
 
@@ -73,7 +73,7 @@
             }
         }
 
-        private void Form8_Load(object sender, EventArgs e)
+        private void OnLoad(object sender, EventArgs e)
         {
             if (CHCK_BOX_DELETE.Checked)
             {

@@ -1,18 +1,19 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
+using System.Windows.Forms;
 
 namespace Registration
 {
     public partial class UserInput : Form
     {
-        public DataGridView DataGridView { get; set; }
-
-        public List<TextBox> TxtBoxList = new List<TextBox>();
-
-        public static int id_count;
+        public static List<string> entire_data = new List<string>();
 
         private readonly MainWindow _mainWindow;
         private readonly ConnectionForm _connectionForm;
+
+        public List<TextBox> TxtBoxList = new List<TextBox>();
+        public int IdCount;
+
         public UserInput(MainWindow mainWindow, ConnectionForm connectionForm)
         {
             _mainWindow = mainWindow;
@@ -34,7 +35,7 @@ namespace Registration
             TxtBoxList.Clear();
             
             var labelList = new List<Label>();
-            for (int i = 1; i < DataGridView.Columns.Count; i++)
+            for (var i = 1; i < _mainWindow.DATA_GRID.Columns.Count; i++)
             {
                 TxtBoxList.Add(new TextBox());
                 labelList.Add(new Label());
@@ -46,7 +47,7 @@ namespace Registration
                 Controls.Add(txtbox);
 
                 label.Location = new Point(posx - 100, posy);
-                label.Text = DataGridView.Columns[i].HeaderText + @":";
+                label.Text = _mainWindow.DATA_GRID.Columns[i].HeaderText + @":";
                 Controls.Add(label);
 
                 posy += 36;
@@ -55,12 +56,10 @@ namespace Registration
             BTN_OK.Location = new Point(62, posy + 30);
             BTN_FORM2_CLOSE.Location = new Point(183, posy + 30);
         }
-        
-        public static List<string> entire_data = new List<string>();
 
         private void OnOkClicked(object sender, EventArgs e)
         {
-            DataGridView.Rows.Add();
+            _mainWindow.DATA_GRID.Rows.Add();
            
             if (_mainWindow.Label2.ForeColor == Color.Green)
             {
@@ -85,42 +84,54 @@ namespace Registration
                      
                 };
                 command.ExecuteNonQuery();
-                var rowCounter = DataGridView.Rows.Count;
-                var columnCounter = DataGridView.Columns.Count;
+                var rowCounter = _mainWindow.DATA_GRID.Rows.Count;
+                var columnCounter = _mainWindow.DATA_GRID.Columns.Count;
 
-                for (int j = 1; j < columnCounter; j++)
+                for (var j = 1; j < columnCounter; j++)
                 {
-                    DataGridView.Rows[rowCounter - 1].Cells[j].Value = TxtBoxList[j - 1].Text;
+                    _mainWindow.DATA_GRID.Rows[rowCounter - 1].Cells[j].Value = TxtBoxList[j - 1].Text;
                 }
-                id_count = int.Parse(DataGridView.Rows[rowCounter - 2].Cells[0].Value.ToString()) + 1;
-                DataGridView.Rows[rowCounter - 1].Cells[0].Value = id_count.ToString();
+
+                IdCount = int.Parse(_mainWindow.DATA_GRID.Rows[rowCounter - 2].Cells[0].Value.ToString()) + 1;
+                _mainWindow.DATA_GRID.Rows[rowCounter - 1].Cells[0].Value = IdCount.ToString();
 
                 TxtBoxList.Clear();
             }
             else if (_mainWindow.Label2.ForeColor != Color.Green)
             {
-                var row_counter = DataGridView.Rows.Count;
-                var column_counter = DataGridView.Columns.Count;
-                _mainWindow.changed = true;
+                var row_counter = _mainWindow.DATA_GRID.Rows.Count;
+                var column_counter = _mainWindow.DATA_GRID.Columns.Count;
+                _mainWindow.CellEdited = true;
 
-                for (int n = 1; n < column_counter; n++)
+                for (var n = 1; n < column_counter; n++)
                 {
-                    DataGridView.Rows[row_counter-1].Cells[n].Value = TxtBoxList[n-1].Text;
+                    _mainWindow.DATA_GRID.Rows[row_counter-1].Cells[n].Value = TxtBoxList[n-1].Text;
                 }
                 if (row_counter == 1)
                 {
-                    id_count = 1;
-                    DataGridView.Rows[row_counter - 1].Cells[0].Value = id_count.ToString();
+                    IdCount = 1;
+                    _mainWindow.DATA_GRID.Rows[row_counter - 1].Cells[0].Value = IdCount.ToString();
                 }
                 else if (row_counter > 1)
                 {
-                    id_count = Int32.Parse(DataGridView.Rows[row_counter - 2].Cells[0].Value.ToString()) + 1;
-                    DataGridView.Rows[row_counter - 1].Cells[0].Value = id_count.ToString();
+                    IdCount = int.Parse(_mainWindow.DATA_GRID.Rows[row_counter - 2].Cells[0].Value.ToString()) + 1;
+                    _mainWindow.DATA_GRID.Rows[row_counter - 1].Cells[0].Value = IdCount.ToString();
                 }
-                
-                ColumnEditForm.EmptySpaceFixer();
-               
+
+                for (var v = 0; v < _mainWindow.DATA_GRID.Columns.Count; v++)
+                {
+                    for (var p = 0; p < _mainWindow.DATA_GRID.Rows.Count; p++)
+                    {
+                        if (string.IsNullOrEmpty(_mainWindow.DATA_GRID.Rows[p].Cells[v].Value as string))
+                        {
+                            _mainWindow.DATA_GRID.Rows[p].Cells[v].Value = "N/A";
+                        }
+
+                    }
+                }
+
             }
+
             Close();
         }
 
@@ -129,7 +140,7 @@ namespace Registration
             if (_mainWindow.Label2.ForeColor == Color.Green)
             {
                 var counter = 1;
-                for (var j = _mainWindow.ResultColumn; j < DataGridView.Columns.Count; j++)
+                for (var j = _mainWindow.ResultColumn; j < _mainWindow.DATA_GRID.Columns.Count; j++)
                 {
                     TxtBoxList[TxtBoxList.Count - counter].Enabled = false;
                     counter++;

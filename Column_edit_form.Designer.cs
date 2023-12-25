@@ -65,7 +65,7 @@
             this.BTN_OK.TabIndex = 2;
             this.BTN_OK.Text = "OK";
             this.BTN_OK.UseVisualStyleBackColor = true;
-            this.BTN_OK.Click += new System.EventHandler(this.BTN_OK_Click);
+            this.BTN_OK.Click += new System.EventHandler(this.OnOkClicked);
             // 
             // TXT_BOX_DELETE
             // 
@@ -154,7 +154,7 @@
             this.Controls.Add(this.LBL_ADD_COLUMN);
             this.Name = "ColumnEditForm";
             this.Text = "Edit";
-            this.Load += new System.EventHandler(this.Form8_Load);
+            this.Load += new System.EventHandler(this.OnLoad);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -43,11 +43,13 @@ namespace Registration
             {
                 LIST_BOX_FONT.Items.Add(FA.Name);
             }
+
             foreach (var item in LIST_BOX_FONT.Items)
             {
                 if (item.ToString() == _dataGridView.Font.Name)
                 {
                     LIST_BOX_FONT.SelectedItem = item;
+                    break;
                 }
             }
 
@@ -77,7 +79,8 @@ namespace Registration
 
         private void BTN_OK_Click(object sender, EventArgs e)
         {
-          SettingData();
+           SettingData();
+           Close();
         }
     }
 }

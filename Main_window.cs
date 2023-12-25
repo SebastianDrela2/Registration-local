@@ -34,7 +34,7 @@ namespace Registration
         private ConnectionForm _connectionForm;
         private UserInput _userInput;
 
-        public bool changed;
+        public bool CellEdited;
         
         public MainWindow()
         {
@@ -226,12 +226,12 @@ namespace Registration
             {
                 if (DATA_GRID.Rows.Count == 0)
                 {
-                    UserInput.id_count = 0;
+                    _userInput.IdCount = 0;
                 }
                 else if (DATA_GRID.Rows.Count == 1)
                 {
                     DATA_GRID.Rows.Clear();
-                    UserInput.id_count = 0;
+                    _userInput.IdCount = 0;
                 }
                 else
                 {
@@ -253,18 +253,14 @@ namespace Registration
                     DATA_GRID.Rows.RemoveAt(this.DATA_GRID.SelectedRows[0].Index);
                     var lastindex = DATA_GRID.Rows.Count - 1;
 
-                    UserInput.id_count = int.Parse(DATA_GRID.Rows[lastindex].Cells[0].Value.ToString());
+                    _userInput.IdCount = int.Parse(DATA_GRID.Rows[lastindex].Cells[0].Value.ToString());
                 }
             }
         }
       
         private void OnAddClicked(object sender, EventArgs e)
         {
-            _userInput = new UserInput(this, _connectionForm)
-            {
-                DataGridView = DATA_GRID
-            };
-
+            _userInput = new UserInput(this, _connectionForm);
             _userInput.Show();
             
             DATA_GRID.AllowUserToAddRows = false;
@@ -301,7 +297,7 @@ namespace Registration
             {
                 columns.Add(DATA_GRID.Columns[k].HeaderText);
             }
-            changed = false;
+            CellEdited = false;
             if (File.Exists(Path))
             {
                 Console.WriteLine(Path);
@@ -325,7 +321,7 @@ namespace Registration
         
         private void OnFormClosing(object sender, FormClosingEventArgs e)
         {
-            if (changed)
+            if (CellEdited)
             {
                 DialogResult dialogresult = MessageBox.Show("Unsaved Changes close?", "Exit", MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
@@ -350,15 +346,15 @@ namespace Registration
 
         private void OnExitClicked(object sender, EventArgs e)
         {
-            if (changed)
+            if (CellEdited)
             {
-                DialogResult dialogresult = MessageBox.Show("Unsaved Changes close?", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (dialogresult != DialogResult.No)
+                var dialogResult = MessageBox.Show("Unsaved Changes close?", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (dialogResult != DialogResult.No)
                 {
                     Application.Exit();
                 }
             }
-            else if (changed == false)
+            else if (CellEdited == false)
             {
                 Application.Exit();
             }
@@ -400,7 +396,7 @@ namespace Registration
 
         private void OnCellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
-            changed = true;
+            CellEdited = true;
         }
 
         private void OnOpenClicked(object sender, EventArgs e)
@@ -482,7 +478,7 @@ namespace Registration
                             columnIndex++;
                         }
 
-                        UserInput.id_count = finalCounter;
+                        _userInput.IdCount = finalCounter;
                         SetConnectionToOffline();
                     }
                     catch
@@ -563,7 +559,7 @@ namespace Registration
 
         private void columnsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           var frm = new ColumnEditForm(_userInput.DataGridView);
+           var frm = new ColumnEditForm(DATA_GRID);
            frm.Show();
         }
 
