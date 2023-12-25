@@ -13,28 +13,30 @@ namespace Registration
         public static List<int> IdList = new List<int>();
         public static List<List<string>> ListaString = new List<List<string>>();
 
-        public ConnectionForm()
+        private static DataGridView _dataGridView;
+
+        public ConnectionForm(DataGridView dataGridView)
         {
+            _dataGridView = dataGridView;
+
             InitializeComponent();
         }
 
 
         public static void ColumnRemover(int field_count)
         {
-            var count = UserInput.DataGridView.Columns.Count;
+            var count = _dataGridView.Columns.Count;
             var operation_result = count - field_count;
             count -= 1;
 
-            for (int i = 0; i < operation_result; i++)
+            for (var i = 0; i < operation_result; i++)
             {
-
-                UserInput.DataGridView.Columns.RemoveAt(count - i);
+                _dataGridView.Columns.RemoveAt(count - i);
             }
 
         }
         public static void DisplayData()
         {
-            
             using SqlCommand cmd = new SqlCommand
             {
                 Connection = con,
@@ -54,33 +56,31 @@ namespace Registration
                     ListaString[m].Add(sqlDataReader[m + 1].ToString());
                 }
 
-
-
-                UserInput.DataGridView.ClearSelection();
+                _dataGridView.ClearSelection();
             }
-            UserInput.DataGridView.Rows.Clear();
+            _dataGridView.Rows.Clear();
             con.Close();
-            for (int i = 0; i < IdList.Count; i++)
+            for (var i = 0; i < IdList.Count; i++)
             {
-                UserInput.DataGridView.Rows.Add();
-                UserInput.DataGridView.ClearSelection();
+                _dataGridView.Rows.Add();
+                _dataGridView.ClearSelection();
             }
 
             for (int j = 0; j < IdList.Count; j++)
             {
-                UserInput.DataGridView.Rows[j].Cells[0].Value = IdList[j];
+                _dataGridView.Rows[j].Cells[0].Value = IdList[j];
 
                 for (int p = 0; p < MainWindow.ResultColumn - 1; p++)
                 {
                     var list = ListaString[p];
                     Console.WriteLine(list[j]);
-                    UserInput.DataGridView.Rows[j].Cells[p + 1].Value = list[j];
+                    _dataGridView.Rows[j].Cells[p + 1].Value = list[j];
                 }
 
-                UserInput.DataGridView.ClearSelection();
+                _dataGridView.ClearSelection();
             }
 
-            UserInput.DataGridView.ClearSelection();
+            _dataGridView.ClearSelection();
         }
 
         public void BTN_OK_Click(object sender, EventArgs e)
@@ -98,25 +98,25 @@ namespace Registration
             };
 
             var reader = commandForwardData.ExecuteReader();
-            
-                while(reader.Read())
+
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
                 {
-                    for (int i = 0 ; i < reader.FieldCount ; i++)
-                    {
                     LIST_BOX_DT.Items.Add(reader[i]);
-                    }
                 }
-            
+            }
+
             connectionForwardData.Close();
         }
 
         private void BTN_PROCEED_Click(object sender, EventArgs e)
         {
             string column_name;
-            for (int s = 1; s < UserInput.DataGridView.Columns.Count; s++)
+            for (int s = 1; s < _dataGridView.Columns.Count; s++)
             {
-                column_name = UserInput.DataGridView.Columns[s].Name;
-                UserInput.DataGridView.Columns.Remove(column_name);
+                column_name = _dataGridView.Columns[s].Name;
+                _dataGridView.Columns.Remove(column_name);
             }
             DataTable =  LIST_BOX_DT.SelectedItem.ToString(); 
             MainWindow.RuntimeChecker = true;
@@ -125,7 +125,7 @@ namespace Registration
            
             
             MainWindow.SqlInfoForForm.Enabled = true;
-            UserInput.DataGridView.ClearSelection();
+            _dataGridView.ClearSelection();
 
             SqlConnection connection = new SqlConnection(ConnectionString);
             connection.Open();
@@ -141,16 +141,13 @@ namespace Registration
                 while (reader.Read())
                 {
                     MainWindow.ResultColumn = reader.GetInt32(0);
-                    UserInput.DataGridView.ClearSelection();
+                    _dataGridView.ClearSelection();
                 }
             }
             connection.Close();
-            UserInput.DataGridView.ClearSelection();
+            _dataGridView.ClearSelection();
 
-
-            
-
-            for (int o = 0; o < MainWindow.ResultColumn - 1; o++)
+            for (var o = 0; o < MainWindow.ResultColumn - 1; o++)
             {
                 ListaString.Add(new List<string>());
             }
@@ -164,41 +161,33 @@ namespace Registration
                 CommandType = CommandType.Text,
                 CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + DataTable + "'"
             };
-            UserInput.DataGridView.ClearSelection();
-            SqlDataReader sqldatareader2 = cmd2.ExecuteReader();
-            List<string> list_results = new List<string>();
+            _dataGridView.ClearSelection();
+            var sqldatareader2 = cmd2.ExecuteReader();
+            var list_results = new List<string>();
             while (sqldatareader2.Read())
             {
                 list_results.Add(sqldatareader2[0].ToString());
-                UserInput.DataGridView.ClearSelection();
+                _dataGridView.ClearSelection();
             }
 
-            UserInput.DataGridView.ClearSelection();
-           
-
-            UserInput.DataGridView.ClearSelection();
-
-            
-            
-            UserInput.DataGridView.ClearSelection();
+            _dataGridView.ClearSelection();
+            _dataGridView.ClearSelection();
+            _dataGridView.ClearSelection();
 
             ColumnRemover(MainWindow.ResultColumn);
-            UserInput.DataGridView.ClearSelection();
+            _dataGridView.ClearSelection();
 
-          
-           
-
-            for (int k = 1; k < MainWindow.ResultColumn; k++)
+            for (var k = 1; k < MainWindow.ResultColumn; k++)
             {
-                UserInput.DataGridView.Columns.Add(list_results[k] + "_" , list_results[k]);
-                UserInput.DataGridView.Columns[k].AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+                _dataGridView.Columns.Add(list_results[k] + "_" , list_results[k]);
+                _dataGridView.Columns[k].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
 
             con.Close();
-           
-            UserInput.DataGridView.ClearSelection();
+
+            _dataGridView.ClearSelection();
             DisplayData();
-            this.Close();
+            Close();
         }
     }
 }

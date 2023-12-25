@@ -109,9 +109,9 @@
             this.DATA_GRID.RowTemplate.Height = 25;
             this.DATA_GRID.Size = new System.Drawing.Size(525, 246);
             this.DATA_GRID.TabIndex = 5;
-            this.DATA_GRID.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.DATA_GRID_CellBeginEdit);
+            this.DATA_GRID.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.OnCellBeginEdit);
             
-            this.DATA_GRID.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.DATA_GRID_CellValueChanged);
+            this.DATA_GRID.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnDataGridCellValueChanged);
             // 
             // ID
             // 
@@ -221,7 +221,7 @@
             this.openToolStripMenuItem1.Name = "openToolStripMenuItem1";
             this.openToolStripMenuItem1.Size = new System.Drawing.Size(109, 22);
             this.openToolStripMenuItem1.Text = "Open";
-            this.openToolStripMenuItem1.Click += new System.EventHandler(this.openToolStripMenuItem1_Click);
+            this.openToolStripMenuItem1.Click += new System.EventHandler(this.OnOpenClicked);
             // 
             // saveToolStripMenuItem1
             // 
@@ -242,7 +242,7 @@
             this.exitToolStripMenuItem1.Name = "exitToolStripMenuItem1";
             this.exitToolStripMenuItem1.Size = new System.Drawing.Size(109, 22);
             this.exitToolStripMenuItem1.Text = "Exit";
-            this.exitToolStripMenuItem1.Click += new System.EventHandler(this.exitToolStripMenuItem1_Click);
+            this.exitToolStripMenuItem1.Click += new System.EventHandler(this.OnExitClicked);
             // 
             // editToolStripMenuItem1
             // 
@@ -444,7 +444,7 @@
             this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Registration";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnFormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.Resize += new System.EventHandler(this.Form1_Resize);

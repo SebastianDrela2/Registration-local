@@ -1,15 +1,4 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
+﻿using System.Text.RegularExpressions;
 
 namespace Registration
 {
@@ -22,10 +11,11 @@ namespace Registration
         public static List<List<int>> results = new List<List<int>>();
         public static ListBox x_items = new ListBox();
         public static string result_of_selection { get; set;}
-        
-        
-        public Graph_form()
+
+        private DataGridView _dataGridView;
+        public Graph_form(DataGridView dataGridView)
         {
+            _dataGridView = dataGridView;
             InitializeComponent();
         }
 
@@ -46,41 +36,27 @@ namespace Registration
             foreach (var data in results)
             {
                 j  = 0;
-                chart1.Series.Add(values[i].ToString());
+                chart1.Series.Add(values[i]);
                 foreach (var item in data)
                 {
-                    
-                    Console.WriteLine("Ta Tabelka: " + checkboxes[i].Text.ToString());
-                    Console.Write(item + "i value: " + i);
-                    chart1.Series[values[i].ToString()].Points.AddXY(UserInput.DataGridView.Rows[j].Cells[result_of_selection + "_"].Value, item );
-                    Console.WriteLine();
+                    chart1.Series[values[i]].Points.AddXY(_dataGridView.Rows[j].Cells[result_of_selection + "_"].Value, item );
                     j++;
 
                 }
                 i++;
-               
             }
-           
-         
-          
         }
-       
-
-        public void GettingData()
+        
+        public void GetData()
         {
-            
-            
-
-            for (int i = 0; i < values.Count; i++)
+            for (var i = 0; i < values.Count; i++)
             {
-                
-                
-                int column_index = Int32.Parse(UserInput.DataGridView.Columns[values[i]+ "_"].Index.ToString());
+                var columnIndex = int.Parse(_dataGridView.Columns[values[i]+ "_"].Index.ToString());
                 results.Add(new List<int>());
 
-                for (int j = 0 ; j < UserInput.DataGridView.Rows.Count ; j++)
+                for (int j = 0 ; j < _dataGridView.Rows.Count ; j++)
                 {
-                    int value = Int32.Parse(UserInput.DataGridView.Rows[j].Cells[column_index].Value.ToString());
+                    var value = int.Parse(_dataGridView.Rows[j].Cells[columnIndex].Value.ToString());
                     results[i].Add(value);
                 }
             }
@@ -88,95 +64,71 @@ namespace Registration
         public void SelectedCheckBoxes()
         {
             
-            for (int i = 0  ; i <UserInput.DataGridView.Columns.Count ; i++)
+            for (int i = 0  ; i < _dataGridView.Columns.Count ; i++)
             {
-                string check = UserInput.DataGridView.Rows[0].Cells[i].Value.ToString();
-                if (checkboxes[i].Checked == true && Regex.IsMatch(check, @"^\d+$") == true)
+                var check = _dataGridView.Rows[0].Cells[i].Value.ToString();
+                if (checkboxes[i].Checked && Regex.IsMatch(check, @"^\d+$"))
                 {
-
                     values.Add(checkboxes[i].Text);
-                    
                 }
             }
         }
 
-       
-
-
         private void BTN_DRAW_Click(object sender , EventArgs e)
         {
-           
-            
-                Console.WriteLine("What");
-                chart1.Series.Clear();
-                SelectedCheckBoxes();
-                GettingData();
-                DisplayData();
+            chart1.Series.Clear();
+            SelectedCheckBoxes();
+            GetData();
+            DisplayData();
 
-                values.Clear();
+            values.Clear();
 
-                results.Clear();
-            
-
+            results.Clear();
         }
         private void Form10_Load(object sender, EventArgs e)
         {
-            
+            var posx = 60;
+            var posy = 15;
 
-            int posx = 60;
-            int posy = 15;
-
-            for (int i = 0 ; i  < UserInput.DataGridView.Columns.Count ; i++)
+            for (int i = 0 ; i  < _dataGridView.Columns.Count ; i++)
             {
-                string column_name = UserInput.DataGridView.Columns[i].HeaderText; 
+                var column_name = _dataGridView.Columns[i].HeaderText; 
                 checkboxes.Add(new CheckBox());
                 
-
                 var check_box = checkboxes[i];
-               
-
-               
+                
                 check_box.Location = new Point(posx + 20, posy - 3);
-
-                
-                
                 check_box.Text = column_name;
                 check_box.Width = 200;
 
-               
-                this.Controls.Add(check_box);
+                Controls.Add(check_box);
 
                 posy += 30;
             }
             
             x_items.Location = new Point(posx + 20, posy);
-            for (int j = 0 ; j < UserInput.DataGridView.Columns.Count ; j++)
+            for (int j = 0 ; j < _dataGridView.Columns.Count ; j++)
             {
-                x_items.Items.Add(UserInput.DataGridView.Columns[j].HeaderText.ToString());
+                x_items.Items.Add(_dataGridView.Columns[j].HeaderText);
             }
            
-            this.Controls.Add(x_items);
+            Controls.Add(x_items);
             x_items.SelectedIndex = 0;
 
-            Button BTN_DRAW = new Button();
-            BTN_DRAW.Location = new Point(100 , posy + 100);
-            BTN_DRAW.Text = "Draw";
-            BTN_DRAW.Height = 30;
-            BTN_DRAW.Click += new EventHandler(BTN_DRAW_Click);
+            var btnDraw = new Button();
+            btnDraw.Location = new Point(100 , posy + 100);
+            btnDraw.Text = "Draw";
+            btnDraw.Height = 30;
+            btnDraw.Click += BTN_DRAW_Click;
             
-            this.Controls.Add(BTN_DRAW);
+            Controls.Add(btnDraw);
         }
-
-        
 
         private void Form10_FormClosing(object sender, FormClosingEventArgs e)
         {
             CleanUp();
             e.Cancel = true;
-            Console.WriteLine("heh");
-            this.Hide();
+            Hide();
         }
-
-       
     }
 }
