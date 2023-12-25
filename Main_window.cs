@@ -42,7 +42,7 @@ namespace Registration
             InitializeComponent();
         }
         
-        public  void SetConnectionToOffline()
+        public void SetConnectionToOffline()
         {
             RuntimeChecker = false;
             LBL_CONNECTION_STATUS.Text = "O F F L I N E";
@@ -57,14 +57,10 @@ namespace Registration
         }
         public static void ReadSettings(string fontPath)
         {
-            if (!File.Exists(fontPath))
+            if (File.Exists(fontPath))
             {
-                File.Create(fontPath);
-            }
-            else
-            {
-                string[] allLines = File.ReadAllLines(fontPath);
-                DataGridForForms.Font = new Font(allLines[0] , float.Parse(allLines[1]));
+                var allLines = File.ReadAllLines(fontPath);
+                DataGridForForms.Font = new Font(allLines[0], float.Parse(allLines[1]));
 
                 var foreGroundComponents = allLines[2].Split(',');
                 var fcColor = GetColorFromComponents(foreGroundComponents);
@@ -72,7 +68,11 @@ namespace Registration
 
                 var backGroundComponents = allLines[3].Split(',');
                 var fbColor = GetColorFromComponents(backGroundComponents);
-                DataGridForForms.BackgroundColor = fbColor;  
+                DataGridForForms.BackgroundColor = fbColor;
+            }
+            else
+            {
+                File.Create(fontPath);
             }
         }
 
@@ -92,7 +92,7 @@ namespace Registration
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void OnLoad(object sender, EventArgs e)
         {
             DataGridForForms = DATA_GRID;
             Path = "";
@@ -108,8 +108,6 @@ namespace Registration
             LBL_CONNECTION_STATUS.Text = @"O F F L I N E";
             LBL_CONNECTION_STATUS.ForeColor = Color.Red;
             ConnectionForm.SqlChecker = false;
-            Search_form.dvg = DATA_GRID;
-            
             Label2 = LBL_CONNECTION_STATUS;
             
             SqlInfoForForm = BTN_SQL_INFO;
@@ -118,7 +116,7 @@ namespace Registration
             {
                 BTN_SQL_INFO.Enabled = false;
             }
-            if (File.Exists(Application.StartupPath + "/Columns/entire_data_columns_data.txt") == true) 
+            if (File.Exists(Application.StartupPath + "/Columns/entire_data_columns_data.txt")) 
             {
                 DATA_GRID.Columns.Clear();
                 
@@ -201,12 +199,10 @@ namespace Registration
         private void ResizeControlChildren()
         {
             ResizeControl(_buttonOriginalRectangle, BTN_ADD);
-            
             ResizeControl(_dataGridOriginalRectangle, DATA_GRID);
             ResizeControl(_titleImageRectangle, IMG_BOX_TITLE);
             ResizeControl(_githubTextOriginalRectangle, LBL_GiTHUB);
             ResizeControl(_linkGitHubTextOriginalRectangle, LINK_LBL_GITHUB);
-            
             ResizeControl (_sqlInfoRectangle, BTN_SQL_INFO);
             ResizeControl(_connectionStatusRectangle, LBL_CONNECTION_STATUS);
             ResizeControl(_connectionStringRectangle, LBL_CONNECTION);
@@ -226,8 +222,7 @@ namespace Registration
 
                 command.ExecuteNonQuery();
                 ConnectionForm.con.Close();
-                DATA_GRID.Rows.RemoveAt(this.DATA_GRID.SelectedRows[0].Index);
-
+                DATA_GRID.Rows.RemoveAt(DATA_GRID.SelectedRows[0].Index);
             }
             else
             {
@@ -235,15 +230,13 @@ namespace Registration
                 {
                     UserInput.id_count = 0;
                 }
-
-                if (DATA_GRID.Rows.Count == 1)
+                else if (DATA_GRID.Rows.Count == 1)
                 {
                     DATA_GRID.Rows.Clear();
                     UserInput.id_count = 0;
                 }
                 else
                 {
-
                     var counter = 0;
                     var selectedRow = DATA_GRID.CurrentCell.RowIndex;
                     selectedRow++;
@@ -393,13 +386,10 @@ namespace Registration
 
                 if (LBL_CONNECTION_STATUS.ForeColor == Color.Green && IdName != null && CurrentCellValue != null)
                 {
-                    
-                    Console.WriteLine("ID : " + CurrentCellValue);
-                    Console.WriteLine("Data: " + IdName);
-                    SqlConnection connection = new SqlConnection(_connectionForm.ConnectionString);
+                    var connection = new SqlConnection(_connectionForm.ConnectionString);
                     connection.Open();
                     
-                    SqlCommand command = new SqlCommand
+                    var command = new SqlCommand
                     {
                         Connection = connection,
                         CommandType = CommandType.Text,
@@ -407,9 +397,6 @@ namespace Registration
 
                     };
                     command.ExecuteNonQuery();
-                    
-
-                    Console.WriteLine("UPDATE UserData SET " + ColumnName + " = '" + CurrentCellValue + "' WHERE ID = " + IdName);
                 }
             }
         }
@@ -437,19 +424,19 @@ namespace Registration
                 var filePath = openfiledialog.FileName;
                 var fileExt = System.IO.Path.GetExtension(filePath);
 
-                string file_path_no_txt = System.IO.Path.GetFileNameWithoutExtension(filePath);
+                var filePathNoExtenstion = System.IO.Path.GetFileNameWithoutExtension(filePath);
                 Path = filePath;
 
-                string[] limes =
-                    File.ReadAllLines(Application.StartupPath + "/Columns/" + file_path_no_txt + "_columns_data.txt");
+                var limes =
+                    File.ReadAllLines(Application.StartupPath + "/Columns/" + filePathNoExtenstion + "_columns_data.txt");
 
                 DATA_GRID.Columns.Clear();
-                foreach (string lime_single in limes)
+                foreach (string line in limes)
                 {
-                    DATA_GRID.Columns.Add(lime_single + "_", lime_single);
+                    DATA_GRID.Columns.Add(line + "_", line);
                 }
 
-                if (fileExt.CompareTo(".txt") == 0)
+                if (string.Compare(fileExt, ".txt", StringComparison.Ordinal) == 0)
                 {
                     try
                     {
@@ -490,7 +477,7 @@ namespace Registration
 
                         foreach (var list in setOfLists)
                         {
-                            for (int row_index = 0; row_index < list.Count; row_index++)
+                            for (var row_index = 0; row_index < list.Count; row_index++)
                             {
                                 DATA_GRID.Rows[row_index].Cells[columnIndex].Value = list[row_index];
                             }
@@ -562,9 +549,9 @@ namespace Registration
             }
         }
         
-        private void searchToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void OnSearchMenuItemClicked(object sender, EventArgs e)
         {
-            var form4 = new Search_form();
+            var form4 = new SearchForm(DATA_GRID);
             form4.Show();
         }
 
@@ -574,7 +561,7 @@ namespace Registration
             _connectionForm.Show();
         }
 
-        private void BTN_SQL_INFO_Click(object sender, EventArgs e)
+        private void OnSqlInfoClicked(object sender, EventArgs e)
         {
             MessageBox.Show(@"Ammount of Columns in SQl server : " + ResultColumn);
         }
@@ -593,20 +580,20 @@ namespace Registration
 
        
 
-        private void graphToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OnGraphToolClicked(object sender, EventArgs e)
         {
             var frm = new GraphForm(DATA_GRID);
             frm.Show();
         }
 
-        private void dataStyleToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OnDataStyleClicked(object sender, EventArgs e)
         {
-            var frm = new StyleEditForm();
+            var frm = new StyleEditForm(DATA_GRID);
             frm.Show();
 
         }
 
-        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        private void OnKeyDown(object sender, KeyEventArgs e)
         {
             if ( e.KeyCode == Keys.Delete)
             {
@@ -621,7 +608,7 @@ namespace Registration
 
         private void sortToolStripMenuItem_Click_2(object sender, EventArgs e)
         {
-            var frm = new SortForm();
+            var frm = new SortForm(DATA_GRID);
             frm.Show();
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace Registration
 {
-    partial class StyleEdit_Form
+    partial class StyleEditForm
     {
         /// <summary>
         /// Required designer variable.
@@ -45,7 +45,6 @@
             this.LIST_BOX_FONT.Name = "LIST_BOX_FONT";
             this.LIST_BOX_FONT.Size = new System.Drawing.Size(129, 173);
             this.LIST_BOX_FONT.TabIndex = 0;
-            this.LIST_BOX_FONT.SelectedIndexChanged += new System.EventHandler(this.LIST_BOX_FONT_SelectedIndexChanged);
             // 
             // LBL_FONT_SIZE
             // 
@@ -107,7 +106,7 @@
             this.BTN_OK.UseVisualStyleBackColor = true;
             this.BTN_OK.Click += new System.EventHandler(this.BTN_OK_Click);
             // 
-            // StyleEdit_Form
+            // StyleEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -120,9 +119,9 @@
             this.Controls.Add(this.TXT_BOX_SIZE);
             this.Controls.Add(this.LBL_FONT_SIZE);
             this.Controls.Add(this.LIST_BOX_FONT);
-            this.Name = "StyleEdit_Form";
+            this.Name = "StyleEditForm";
             this.Text = "DataStyle";
-            this.Load += new System.EventHandler(this.Form11_Load);
+            this.Load += new System.EventHandler(this.OnLoad);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -1,6 +1,6 @@
 ﻿namespace Registration
 {
-    partial class Database_entry
+    partial class DatabaseEntry
     {
         /// <summary>
         /// Required designer variable.
@@ -59,7 +59,7 @@
             this.BTN_OK.UseVisualStyleBackColor = true;
             this.BTN_OK.Click += new System.EventHandler(this.BTN_OK_Click);
             // 
-            // Database_entry
+            // DatabaseEntry
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -67,7 +67,7 @@
             this.Controls.Add(this.BTN_OK);
             this.Controls.Add(this.TXT_BOX_DATA_BASE_NAME);
             this.Controls.Add(this.LBL_NAME);
-            this.Name = "Database_entry";
+            this.Name = "DatabaseEntry";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "New";
           

@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace Registration
 {
-    public partial class Database_entry : Form
+    public partial class DatabaseEntry : Form
     {
         public static DataGridView datagridview1 { get; set; }
         public static string path_no_txt { get; set;}
 
 
         
-        public Database_entry()
+        public DatabaseEntry()
         {
             InitializeComponent();
         }

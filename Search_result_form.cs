@@ -57,7 +57,7 @@ namespace Registration
             TXT_BOX_TEXT1.AppendText(Environment.NewLine);
             TXT_BOX_TEXT1.AppendText(Environment.NewLine);
 
-            foreach (var kpv in Search_form.dictionary_for_form)
+            foreach (var kpv in SearchForm.dictionary_for_form)
             {
                 result = "Row : " + (kpv.Key + 1).ToString() + " " + kpv.Value.ToString();
                 TXT_BOX_TEXT1.Text += result;

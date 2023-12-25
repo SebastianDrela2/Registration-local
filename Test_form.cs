@@ -1,61 +1,42 @@
 ﻿namespace Registration
 {
-    public partial class Test_form : Form
+    public partial class TestForm : Form
     {
-        public Test_form()
+        private DataGridView _dataGridView;
+        public TestForm(DataGridView dataGridView)
         {
+            _dataGridView = dataGridView;
             InitializeComponent();
-            Console.WriteLine("dziala");
 
-            int posx = 100;
-            int posy = 15;
+            var posx = 100;
+            var posy = 15;
 
-            List<TextBox> TxtBoxList = new List<TextBox>();
-            List<Label> LabelList = new List<Label>();
-            for (int i = 1; i < UserInput.DataGridView.Columns.Count; i++)
+            var txtBoxList = new List<TextBox>();
+            var labelList = new List<Label>();
+            for (int i = 1; i < _dataGridView.Columns.Count; i++)
             {
-                TxtBoxList.Add(new TextBox());
-                LabelList.Add(new Label());
+                txtBoxList.Add(new TextBox());
+                labelList.Add(new Label());
 
+                var txtbox = txtBoxList[i - 1];
+                var label = labelList[i - 1];
 
-                Console.WriteLine(TxtBoxList.Count.ToString());
+                txtbox.Location = new Point(posx - 40, posy);
+                Controls.Add(txtbox);
 
-                var txtbox = TxtBoxList[i-1];
-                var label = LabelList[i-1];
+                label.Location = new Point(posx - 100, posy);
+                label.Text = _dataGridView.Columns[i].HeaderText.ToString() + ":";
+                Controls.Add(label);
 
-                    txtbox.Location = new Point(posx-40, posy);
-                    this.Controls.Add(txtbox);
-
-                   
-                
-                
-                    label.Location = new Point(posx - 100, posy);
-                    label.Text = UserInput.DataGridView.Columns[i].HeaderText.ToString() + ":";
-                    this.Controls.Add(label);
-                
                 posy += 36;
             }
-            UserInput.DataGridView.Rows.Add();
-            int row_counter = UserInput.DataGridView.Rows.Count;
-            int column_counter = UserInput.DataGridView.Columns.Count;
-            for (int j = 1; j < column_counter; j++)
+            _dataGridView.Rows.Add();
+            var rowCounter = _dataGridView.Rows.Count;
+            var columnCounter = _dataGridView.Columns.Count;
+            for (var j = 1; j < columnCounter; j++)
             {
-                UserInput.DataGridView.Rows[row_counter].Cells[j].Value = TxtBoxList[j].Text;
-             }
-        }
-
-        private void Form7_Load(object sender, EventArgs e)
-        {
-            
-
-            
-            
-            
-        }
-
-        private void Form7_Load_1(object sender, EventArgs e)
-        {
-
+                _dataGridView.Rows[rowCounter].Cells[j].Value = txtBoxList[j].Text;
+            }
         }
     }
 }

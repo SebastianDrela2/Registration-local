@@ -1,6 +1,6 @@
 ﻿namespace Registration
 {
-    partial class Graph_form
+    partial class GraphForm
     {
         /// <summary>
         /// Required designer variable.
@@ -48,13 +48,13 @@
             this.chart1.Text = "CHART";
            
             // 
-            // Graph_form
+            // GraphForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(830, 516);
             this.Controls.Add(this.chart1);
-            this.Name = "Graph_form";
+            this.Name = "GraphForm";
             this.Text = "Graph";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form10_FormClosing);
             this.Load += new System.EventHandler(this.Form10_Load);

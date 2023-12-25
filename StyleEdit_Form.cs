@@ -2,18 +2,21 @@
 
 namespace Registration
 {
-    public partial class StyleEdit_Form : Form
+    public partial class StyleEditForm : Form
     {
-        public StyleEdit_Form()
+        private DataGridView _dataGridView;
+        public StyleEditForm(DataGridView dataGridView)
         {
+            _dataGridView = dataGridView;
+
             InitializeComponent();
         }
 
         private void SettingData()
         {
-            UserInput.DataGridView.Font = new Font(LIST_BOX_FONT.SelectedItem.ToString(), float.Parse(TXT_BOX_SIZE.Text));
-            UserInput.DataGridView.BackgroundColor = TXT_BOX_CELL_COLOUR.BackColor;
-            UserInput.DataGridView.ForeColor = TXT_BOX_BACKGROUND.BackColor;
+            _dataGridView.Font = new Font(LIST_BOX_FONT.SelectedItem.ToString(), float.Parse(TXT_BOX_SIZE.Text));
+            _dataGridView.BackgroundColor = TXT_BOX_CELL_COLOUR.BackColor;
+            _dataGridView.ForeColor = TXT_BOX_BACKGROUND.BackColor;
 
             var FC_ARGB = TXT_BOX_BACKGROUND.BackColor;
             var FC = $"{FC_ARGB.A},{FC_ARGB.R},{FC_ARGB.G},{FC_ARGB.B}";
@@ -29,10 +32,10 @@ namespace Registration
             
             File.WriteAllLines(MainWindow.FontData, settings);
         }
-        private void Form11_Load(object sender, EventArgs e)
+        private void OnLoad(object sender, EventArgs e)
         {
 
-            TXT_BOX_SIZE.Text = UserInput.DataGridView.Font.Size.ToString();
+            TXT_BOX_SIZE.Text = _dataGridView.Font.Size.ToString();
             InstalledFontCollection collection = new InstalledFontCollection();
             foreach (FontFamily FA in collection.Families)
             {
@@ -40,14 +43,14 @@ namespace Registration
             }
             foreach (var item in LIST_BOX_FONT.Items)
             {
-                if (item.ToString() == UserInput.DataGridView.Font.Name)
+                if (item.ToString() == _dataGridView.Font.Name)
                 {
                     LIST_BOX_FONT.SelectedItem = item;
                 }
             }
 
-            TXT_BOX_BACKGROUND.ForeColor = UserInput.DataGridView.ForeColor;
-            TXT_BOX_CELL_COLOUR.BackColor = UserInput.DataGridView.BackgroundColor;
+            TXT_BOX_BACKGROUND.ForeColor = _dataGridView.ForeColor;
+            TXT_BOX_CELL_COLOUR.BackColor = _dataGridView.BackgroundColor;
             
         }
 

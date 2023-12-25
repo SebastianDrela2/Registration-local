@@ -1,6 +1,6 @@
 ﻿namespace Registration
 {
-    partial class Search_form
+    partial class SearchForm
     {
         /// <summary>
         /// Required designer variable.
@@ -51,7 +51,6 @@
             this.TXT_BOX_SEARCH.Name = "TXT_BOX_SEARCH";
             this.TXT_BOX_SEARCH.Size = new System.Drawing.Size(136, 20);
             this.TXT_BOX_SEARCH.TabIndex = 1;
-            this.TXT_BOX_SEARCH.TextChanged += new System.EventHandler(this.TXT_BOX_SEARCH_TextChanged);
             // 
             // BTN_OK
             // 
@@ -89,7 +88,7 @@
             this.TXT_BOX_COLUMN_NAME.Size = new System.Drawing.Size(86, 20);
             this.TXT_BOX_COLUMN_NAME.TabIndex = 5;
             // 
-            // Search_form
+            // SearchForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -100,10 +99,9 @@
             this.Controls.Add(this.BTN_OK);
             this.Controls.Add(this.TXT_BOX_SEARCH);
             this.Controls.Add(this.LBL_Search);
-            this.Name = "Search_form";
+            this.Name = "SearchForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Search";
-            this.Load += new System.EventHandler(this.Form4_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

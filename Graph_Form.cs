@@ -2,7 +2,7 @@
 
 namespace Registration
 {
-    public partial class Graph_form : Form
+    public partial class GraphForm : Form
     {
         
         public static List<CheckBox> checkboxes = new List<CheckBox>();
@@ -13,7 +13,7 @@ namespace Registration
         public static string result_of_selection { get; set;}
 
         private DataGridView _dataGridView;
-        public Graph_form(DataGridView dataGridView)
+        public GraphForm(DataGridView dataGridView)
         {
             _dataGridView = dataGridView;
             InitializeComponent();

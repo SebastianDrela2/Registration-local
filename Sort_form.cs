@@ -4,15 +4,17 @@ namespace Registration
 {
     public partial class SortForm : Form
     {
-        public SortForm()
+        private DataGridView _dataGridView;
+        public SortForm(DataGridView dataGridView)
         {
+            _dataGridView = dataGridView;
             InitializeComponent();
         }
         private void LoadColumnsIntoListBox()
         {
-            for (int i = 0 ; i < UserInput.DataGridView.Columns.Count ; i++)
+            for (var i = 0 ; i < _dataGridView.Columns.Count ; i++)
             {
-                var columns = UserInput.DataGridView.Columns[i].HeaderText.ToString();
+                var columns = _dataGridView.Columns[i].HeaderText;
                 LIST_BOX_COLUMNS.Items.Add(columns);
             }
         }
@@ -26,12 +28,12 @@ namespace Registration
             var result = LIST_BOX_COLUMNS.SelectedIndex;
             if (CHCK_BOX_ASCV.Checked)
             {
-                UserInput.DataGridView.Sort(UserInput.DataGridView.Columns[result], ListSortDirection.Ascending);
+                _dataGridView.Sort(_dataGridView.Columns[result], ListSortDirection.Ascending);
             }
 
             else if (CHCK_BOX_DESC.Checked)
             {
-                UserInput.DataGridView.Sort(UserInput.DataGridView.Columns[result], ListSortDirection.Descending);
+                _dataGridView.Sort(_dataGridView.Columns[result], ListSortDirection.Descending);
             }
         }
 

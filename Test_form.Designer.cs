@@ -1,6 +1,6 @@
 ﻿namespace Registration
 {
-    partial class Test_form
+    partial class TestForm
     {
         /// <summary>
         /// Required designer variable.
@@ -42,7 +42,6 @@
             // 
             this.ClientSize = new System.Drawing.Size(478, 360);
             this.Name = "Form7";
-            this.Load += new System.EventHandler(this.Form7_Load_1);
             this.ResumeLayout(false);
 
         }

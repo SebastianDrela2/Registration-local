@@ -257,7 +257,7 @@
             this.searchToolStripMenuItem1.Name = "searchToolStripMenuItem1";
             this.searchToolStripMenuItem1.Size = new System.Drawing.Size(109, 22);
             this.searchToolStripMenuItem1.Text = "Search";
-            this.searchToolStripMenuItem1.Click += new System.EventHandler(this.searchToolStripMenuItem1_Click);
+            this.searchToolStripMenuItem1.Click += new System.EventHandler(this.OnSearchMenuItemClicked);
             // 
             // editToolStripMenuItem2
             // 
@@ -281,7 +281,7 @@
             this.dataStyleToolStripMenuItem.Name = "dataStyleToolStripMenuItem";
             this.dataStyleToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.dataStyleToolStripMenuItem.Text = "DataStyle";
-            this.dataStyleToolStripMenuItem.Click += new System.EventHandler(this.dataStyleToolStripMenuItem_Click);
+            this.dataStyleToolStripMenuItem.Click += new System.EventHandler(this.OnDataStyleClicked);
             // 
             // sortToolStripMenuItem
             // 
@@ -303,7 +303,7 @@
             this.graphToolStripMenuItem.Name = "graphToolStripMenuItem";
             this.graphToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
             this.graphToolStripMenuItem.Text = "Graph";
-            this.graphToolStripMenuItem.Click += new System.EventHandler(this.graphToolStripMenuItem_Click);
+            this.graphToolStripMenuItem.Click += new System.EventHandler(this.OnGraphToolClicked);
             // 
             // helpToolStripMenuItem
             // 
@@ -386,7 +386,6 @@
             // 
             // IMG_BOX_TITLE
             // 
-            this.IMG_BOX_TITLE.Image = ((System.Drawing.Image)(resources.GetObject("IMG_BOX_TITLE.Image")));
             this.IMG_BOX_TITLE.Location = new System.Drawing.Point(221, 1);
             this.IMG_BOX_TITLE.Name = "IMG_BOX_TITLE";
             this.IMG_BOX_TITLE.Size = new System.Drawing.Size(465, 83);
@@ -422,7 +421,7 @@
             this.BTN_SQL_INFO.TabIndex = 17;
             this.BTN_SQL_INFO.Text = "SQL Info";
             this.BTN_SQL_INFO.UseVisualStyleBackColor = true;
-            this.BTN_SQL_INFO.Click += new System.EventHandler(this.BTN_SQL_INFO_Click);
+            this.BTN_SQL_INFO.Click += new System.EventHandler(this.OnSqlInfoClicked);
             // 
             // MainWindow
             // 
@@ -445,8 +444,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Registration";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OnFormClosing);
-            this.Load += new System.EventHandler(this.Form1_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
+            this.Load += new System.EventHandler(this.OnLoad);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.DATA_GRID)).EndInit();
             this.menuStrip1.ResumeLayout(false);
