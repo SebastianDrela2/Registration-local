@@ -10,10 +10,12 @@ namespace Registration
         public List<TextBox> TxtBoxList = new List<TextBox>();
 
         public static int id_count;
-        
+
+        private readonly MainWindow _mainWindow;
         private readonly ConnectionForm _connectionForm;
-        public UserInput(ConnectionForm connectionForm)
+        public UserInput(MainWindow mainWindow, ConnectionForm connectionForm)
         {
+            _mainWindow = mainWindow;
             _connectionForm = connectionForm;
 
             InitializeComponent();
@@ -60,13 +62,13 @@ namespace Registration
         {
             DataGridView.Rows.Add();
            
-            if (MainWindow.Label2.ForeColor == Color.Green)
+            if (_mainWindow.Label2.ForeColor == Color.Green)
             {
-                string result = "INSERT INTO UserData VALUES (";
-                for (int s = 0; s < MainWindow.ResultColumn - 1; s++)
+                var result = "INSERT INTO UserData VALUES (";
+                for (var s = 0; s < _mainWindow.ResultColumn - 1; s++)
                 {
                     result += "'" + TxtBoxList[s].Text + "'";
-                    if (s != MainWindow.ResultColumn - 2)
+                    if (s != _mainWindow.ResultColumn - 2)
                     {
                         result += " ,";
                     }
@@ -95,11 +97,11 @@ namespace Registration
 
                 TxtBoxList.Clear();
             }
-            else if (MainWindow.Label2.ForeColor != Color.Green)
+            else if (_mainWindow.Label2.ForeColor != Color.Green)
             {
                 var row_counter = DataGridView.Rows.Count;
                 var column_counter = DataGridView.Columns.Count;
-                MainWindow.changed = true;
+                _mainWindow.changed = true;
 
                 for (int n = 1; n < column_counter; n++)
                 {
@@ -122,12 +124,12 @@ namespace Registration
             Close();
         }
 
-        private void Form2_Load(object sender, EventArgs e)
+        private void OnLoad(object sender, EventArgs e)
         {
-            if (MainWindow.Label2.ForeColor == Color.Green)
+            if (_mainWindow.Label2.ForeColor == Color.Green)
             {
                 var counter = 1;
-                for (var j = MainWindow.ResultColumn; j < DataGridView.Columns.Count; j++)
+                for (var j = _mainWindow.ResultColumn; j < DataGridView.Columns.Count; j++)
                 {
                     TxtBoxList[TxtBoxList.Count - counter].Enabled = false;
                     counter++;

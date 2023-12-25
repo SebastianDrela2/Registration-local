@@ -59,7 +59,7 @@
             this.BTN_OK.TabIndex = 2;
             this.BTN_OK.Text = "Connect";
             this.BTN_OK.UseVisualStyleBackColor = true;
-            this.BTN_OK.Click += new System.EventHandler(this.BTN_OK_Click);
+            this.BTN_OK.Click += new System.EventHandler(this.OnOkClicked);
             // 
             // LIST_BOX_DT
             // 
@@ -79,7 +79,7 @@
             this.BTN_PROCEED.TabIndex = 4;
             this.BTN_PROCEED.Text = "OK";
             this.BTN_PROCEED.UseVisualStyleBackColor = true;
-            this.BTN_PROCEED.Click += new System.EventHandler(this.BTN_PROCEED_Click);
+            this.BTN_PROCEED.Click += new System.EventHandler(this.OnProceedClicked);
             // 
             // _connectionForm
             // 

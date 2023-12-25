@@ -5,9 +5,11 @@ namespace Registration
     public partial class StyleEditForm : Form
     {
         private DataGridView _dataGridView;
-        public StyleEditForm(DataGridView dataGridView)
+        private MainWindow _mainWindow;
+        public StyleEditForm(MainWindow mainWindow)
         {
-            _dataGridView = dataGridView;
+            _dataGridView = mainWindow.DATA_GRID;
+            _mainWindow = mainWindow;
 
             InitializeComponent();
         }
@@ -30,7 +32,7 @@ namespace Registration
             settings.Add(FC);
             settings.Add(FB);
             
-            File.WriteAllLines(MainWindow.FontData, settings);
+            File.WriteAllLines(_mainWindow.FontData, settings);
         }
         private void OnLoad(object sender, EventArgs e)
         {

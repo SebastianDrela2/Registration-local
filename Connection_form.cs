@@ -14,16 +14,16 @@ namespace Registration
         public static List<List<string>> ListaString = new List<List<string>>();
 
         private static DataGridView _dataGridView;
-
-        public ConnectionForm(DataGridView dataGridView)
+        private MainWindow _mainWindow;
+        public ConnectionForm(MainWindow mainWindow)
         {
-            _dataGridView = dataGridView;
+            _mainWindow = mainWindow;
+            _dataGridView = mainWindow.DATA_GRID;
 
             InitializeComponent();
         }
 
-
-        public static void ColumnRemover(int field_count)
+        public void RemoveColumns(int field_count)
         {
             var count = _dataGridView.Columns.Count;
             var operation_result = count - field_count;
@@ -35,7 +35,8 @@ namespace Registration
             }
 
         }
-        public static void DisplayData()
+
+        public void DisplayData()
         {
             using SqlCommand cmd = new SqlCommand
             {
@@ -46,12 +47,12 @@ namespace Registration
 
             con.Open();
             using SqlDataReader sqlDataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-            ColumnRemover(sqlDataReader.FieldCount);
+            RemoveColumns(sqlDataReader.FieldCount);
             while (sqlDataReader.Read())
             {
-                IdList.Add(Int32.Parse(sqlDataReader[0].ToString()));
+                IdList.Add(int.Parse(sqlDataReader[0].ToString()));
 
-                for (int m = 0; m < MainWindow.ResultColumn - 1; m++)
+                for (var m = 0; m < _mainWindow.ResultColumn - 1; m++)
                 {
                     ListaString[m].Add(sqlDataReader[m + 1].ToString());
                 }
@@ -66,11 +67,11 @@ namespace Registration
                 _dataGridView.ClearSelection();
             }
 
-            for (int j = 0; j < IdList.Count; j++)
+            for (var j = 0; j < IdList.Count; j++)
             {
                 _dataGridView.Rows[j].Cells[0].Value = IdList[j];
 
-                for (int p = 0; p < MainWindow.ResultColumn - 1; p++)
+                for (int p = 0; p < _mainWindow.ResultColumn - 1; p++)
                 {
                     var list = ListaString[p];
                     Console.WriteLine(list[j]);
@@ -83,7 +84,7 @@ namespace Registration
             _dataGridView.ClearSelection();
         }
 
-        public void BTN_OK_Click(object sender, EventArgs e)
+        public void OnOkClicked(object sender, EventArgs e)
         {
             BTN_PROCEED.Enabled = true;
             ConnectionString = TXT_BOT_CONNECTION.Text;
@@ -110,44 +111,43 @@ namespace Registration
             connectionForwardData.Close();
         }
 
-        private void BTN_PROCEED_Click(object sender, EventArgs e)
+        private void OnProceedClicked(object sender, EventArgs e)
         {
             string column_name;
-            for (int s = 1; s < _dataGridView.Columns.Count; s++)
+            for (var s = 1; s < _dataGridView.Columns.Count; s++)
             {
                 column_name = _dataGridView.Columns[s].Name;
                 _dataGridView.Columns.Remove(column_name);
             }
-            DataTable =  LIST_BOX_DT.SelectedItem.ToString(); 
-            MainWindow.RuntimeChecker = true;
-            MainWindow.Label2.Text = "O N L I N E";
-            MainWindow.Label2.ForeColor = Color.Green;
-           
-            
-            MainWindow.SqlInfoForForm.Enabled = true;
+            DataTable =  LIST_BOX_DT.SelectedItem.ToString();
+            _mainWindow.RuntimeChecker = true;
+            _mainWindow.Label2.Text = "O N L I N E";
+            _mainWindow.Label2.ForeColor = Color.Green;
+
+            _mainWindow.Enabled = true;
             _dataGridView.ClearSelection();
 
-            SqlConnection connection = new SqlConnection(ConnectionString);
+            var connection = new SqlConnection(ConnectionString);
             connection.Open();
-            SqlCommand command = new SqlCommand()
+            var command = new SqlCommand()
             {
                 Connection = connection,
                 CommandType = CommandType.Text,
                 CommandText = "SELECT count(*) FROM information_schema.columns WHERE table_name = '"+DataTable+"'"
             };
 
-            using (SqlDataReader reader = command.ExecuteReader())
+            using (var reader = command.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    MainWindow.ResultColumn = reader.GetInt32(0);
+                    _mainWindow.ResultColumn = reader.GetInt32(0);
                     _dataGridView.ClearSelection();
                 }
             }
             connection.Close();
             _dataGridView.ClearSelection();
 
-            for (var o = 0; o < MainWindow.ResultColumn - 1; o++)
+            for (var o = 0; o < _mainWindow.ResultColumn - 1; o++)
             {
                 ListaString.Add(new List<string>());
             }
@@ -155,7 +155,7 @@ namespace Registration
             con = new SqlConnection(ConnectionString);
             con.Open();
 
-            using SqlCommand cmd2 = new SqlCommand
+            using var cmd2 = new SqlCommand
             {
                 Connection = con,
                 CommandType = CommandType.Text,
@@ -174,10 +174,10 @@ namespace Registration
             _dataGridView.ClearSelection();
             _dataGridView.ClearSelection();
 
-            ColumnRemover(MainWindow.ResultColumn);
+            RemoveColumns(_mainWindow.ResultColumn);
             _dataGridView.ClearSelection();
 
-            for (var k = 1; k < MainWindow.ResultColumn; k++)
+            for (var k = 1; k < _mainWindow.ResultColumn; k++)
             {
                 _dataGridView.Columns.Add(list_results[k] + "_" , list_results[k]);
                 _dataGridView.Columns[k].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;

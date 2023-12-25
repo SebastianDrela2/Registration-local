@@ -69,8 +69,8 @@
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.IMG_BOX_TITLE = new System.Windows.Forms.PictureBox();
             this.LBL_CONNECTION = new System.Windows.Forms.Label();
-            this.LBL_CONNECTION_STATUS = new System.Windows.Forms.Label();
-            this.BTN_SQL_INFO = new System.Windows.Forms.Button();
+            this._labelConnectionStatus = new System.Windows.Forms.Label();
+            this._buttonSqlInfo = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.DATA_GRID)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.IMG_BOX_TITLE)).BeginInit();
@@ -403,25 +403,25 @@
             this.LBL_CONNECTION.TabIndex = 14;
             this.LBL_CONNECTION.Text = "Connection Status:";
             // 
-            // LBL_CONNECTION_STATUS
+            // _labelConnectionStatus
             // 
-            this.LBL_CONNECTION_STATUS.AutoSize = true;
-            this.LBL_CONNECTION_STATUS.Font = new System.Drawing.Font("Segoe UI", 15.75F);
-            this.LBL_CONNECTION_STATUS.Location = new System.Drawing.Point(499, 91);
-            this.LBL_CONNECTION_STATUS.Name = "LBL_CONNECTION_STATUS";
-            this.LBL_CONNECTION_STATUS.Size = new System.Drawing.Size(69, 30);
-            this.LBL_CONNECTION_STATUS.TabIndex = 15;
-            this.LBL_CONNECTION_STATUS.Text = "Status";
+            this._labelConnectionStatus.AutoSize = true;
+            this._labelConnectionStatus.Font = new System.Drawing.Font("Segoe UI", 15.75F);
+            this._labelConnectionStatus.Location = new System.Drawing.Point(499, 91);
+            this._labelConnectionStatus.Name = "_labelConnectionStatus";
+            this._labelConnectionStatus.Size = new System.Drawing.Size(69, 30);
+            this._labelConnectionStatus.TabIndex = 15;
+            this._labelConnectionStatus.Text = "Status";
             // 
-            // BTN_SQL_INFO
+            // _buttonSqlInfo
             // 
-            this.BTN_SQL_INFO.Location = new System.Drawing.Point(552, 125);
-            this.BTN_SQL_INFO.Name = "BTN_SQL_INFO";
-            this.BTN_SQL_INFO.Size = new System.Drawing.Size(90, 26);
-            this.BTN_SQL_INFO.TabIndex = 17;
-            this.BTN_SQL_INFO.Text = "SQL Info";
-            this.BTN_SQL_INFO.UseVisualStyleBackColor = true;
-            this.BTN_SQL_INFO.Click += new System.EventHandler(this.OnSqlInfoClicked);
+            this._buttonSqlInfo.Location = new System.Drawing.Point(552, 125);
+            this._buttonSqlInfo.Name = "_buttonSqlInfo";
+            this._buttonSqlInfo.Size = new System.Drawing.Size(90, 26);
+            this._buttonSqlInfo.TabIndex = 17;
+            this._buttonSqlInfo.Text = "SQL Info";
+            this._buttonSqlInfo.UseVisualStyleBackColor = true;
+            this._buttonSqlInfo.Click += new System.EventHandler(this.OnSqlInfoClicked);
             // 
             // MainWindow
             // 
@@ -429,8 +429,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(700, 402);
-            this.Controls.Add(this.BTN_SQL_INFO);
-            this.Controls.Add(this.LBL_CONNECTION_STATUS);
+            this.Controls.Add(this._buttonSqlInfo);
+            this.Controls.Add(this._labelConnectionStatus);
             this.Controls.Add(this.LBL_CONNECTION);
             this.Controls.Add(this.IMG_BOX_TITLE);
             this.Controls.Add(this.LBL_GiTHUB);
@@ -474,7 +474,7 @@
         private ToolStripMenuItem addToolStripMenuItem;
         private ToolStripMenuItem sQLConnectionToolStripMenuItem;
         private Label LBL_CONNECTION;
-        private Label LBL_CONNECTION_STATUS;
+        private Label _labelConnectionStatus;
         private ToolStripMenuItem fileToolStripMenuItem1;
         private ToolStripMenuItem newToolStripMenuItem1;
         private ToolStripMenuItem addToolStripMenuItem1;
@@ -485,7 +485,7 @@
         private ToolStripMenuItem exitToolStripMenuItem1;
         private ToolStripMenuItem editToolStripMenuItem1;
         private ToolStripMenuItem searchToolStripMenuItem1;
-        private Button BTN_SQL_INFO;
+        private Button _buttonSqlInfo;
         private ToolStripMenuItem editToolStripMenuItem2;
         private ToolStripMenuItem columnsToolStripMenuItem;
         private DataGridViewTextBoxColumn ID;

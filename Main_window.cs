@@ -6,14 +6,13 @@ namespace Registration
 {
     public partial class MainWindow : Form
     {
-        public static Label Label2 { get; set; }
-        public static DataGridView DataGridForForms { get; set; }
-        public static Button SqlInfoForForm { get; set; }
-        public static bool RuntimeChecker { get; set; }
-        public static int ResultColumn  {get; set;}
+        public Label Label2 { get; set; }
+        public Button SqlInfoForForm { get; set; }
+        public bool RuntimeChecker { get; set; }
+        public int ResultColumn  {get; set;}
         public bool FirstPass;
-        public static string Path  = "";
-        public static string FontData { get; set;}
+        public string Path  = "";
+        public string FontData { get; set;}
 
         public int SelectedRowIndex;
         public int SelectedColumnIndex;
@@ -35,7 +34,7 @@ namespace Registration
         private ConnectionForm _connectionForm;
         private UserInput _userInput;
 
-        public static bool changed;
+        public bool changed;
         
         public MainWindow()
         {
@@ -45,8 +44,8 @@ namespace Registration
         public void SetConnectionToOffline()
         {
             RuntimeChecker = false;
-            LBL_CONNECTION_STATUS.Text = "O F F L I N E";
-            LBL_CONNECTION_STATUS.ForeColor = Color.Red;
+            _labelConnectionStatus.Text = "O F F L I N E";
+            _labelConnectionStatus.ForeColor = Color.Red;
             ConnectionForm.SqlChecker = false;
             if (RuntimeChecker)
             {
@@ -55,20 +54,20 @@ namespace Registration
 
             RuntimeChecker = false;
         }
-        public static void ReadSettings(string fontPath)
+        private void ReadSettings(string fontPath)
         {
             if (File.Exists(fontPath))
             {
                 var allLines = File.ReadAllLines(fontPath);
-                DataGridForForms.Font = new Font(allLines[0], float.Parse(allLines[1]));
+                DATA_GRID.Font = new Font(allLines[0], float.Parse(allLines[1]));
 
                 var foreGroundComponents = allLines[2].Split(',');
                 var fcColor = GetColorFromComponents(foreGroundComponents);
-                DataGridForForms.ForeColor = fcColor;
+                DATA_GRID.ForeColor = fcColor;
 
                 var backGroundComponents = allLines[3].Split(',');
                 var fbColor = GetColorFromComponents(backGroundComponents);
-                DataGridForForms.BackgroundColor = fbColor;
+                DATA_GRID.BackgroundColor = fbColor;
             }
             else
             {
@@ -94,7 +93,6 @@ namespace Registration
 
         private void OnLoad(object sender, EventArgs e)
         {
-            DataGridForForms = DATA_GRID;
             Path = "";
             var columnDirectoryPath = Application.StartupPath + "\\Columns";
             var dataDirectoryPath = Application.StartupPath + "\\Data";
@@ -105,16 +103,16 @@ namespace Registration
             CreateDirIfItDoesNotExist(columnDirectoryPath);
             CreateDirIfItDoesNotExist(dataDirectoryPath);
 
-            LBL_CONNECTION_STATUS.Text = @"O F F L I N E";
-            LBL_CONNECTION_STATUS.ForeColor = Color.Red;
+            _labelConnectionStatus.Text = @"O F F L I N E";
+            _labelConnectionStatus.ForeColor = Color.Red;
             ConnectionForm.SqlChecker = false;
-            Label2 = LBL_CONNECTION_STATUS;
+            Label2 = _labelConnectionStatus;
             
-            SqlInfoForForm = BTN_SQL_INFO;
+            SqlInfoForForm = _buttonSqlInfo;
 
-            if (LBL_CONNECTION_STATUS.ForeColor == Color.Red)
+            if (_labelConnectionStatus.ForeColor == Color.Red)
             {
-                BTN_SQL_INFO.Enabled = false;
+                _buttonSqlInfo.Enabled = false;
             }
             if (File.Exists(Application.StartupPath + "/Columns/entire_data_columns_data.txt")) 
             {
@@ -127,8 +125,8 @@ namespace Registration
                 }
                 
             }
-            DatabaseEntry.datagridview1 = DATA_GRID;
-            if (File.Exists(Application.StartupPath + "/Data/entire_data.txt") == true)
+            
+            if (File.Exists(Application.StartupPath + "/Data/entire_data.txt"))
             {
                 string[] allLines = File.ReadAllLines(Application.StartupPath+ "/Data/entire_data.txt");
                 var counterRow = 0;
@@ -176,9 +174,9 @@ namespace Registration
             _githubTextOriginalRectangle = new Rectangle(LBL_GiTHUB.Location.X, LBL_GiTHUB.Location.Y, LBL_GiTHUB.Width, LBL_GiTHUB.Height);
             _linkGitHubTextOriginalRectangle = new Rectangle(LINK_LBL_GITHUB.Location.X, LINK_LBL_GITHUB.Location.Y, LINK_LBL_GITHUB.Width, LINK_LBL_GITHUB.Height);
            
-            _sqlInfoRectangle = new Rectangle(BTN_SQL_INFO.Location.X, BTN_SQL_INFO.Location.Y, BTN_SQL_INFO.Width, BTN_SQL_INFO.Height);
+            _sqlInfoRectangle = new Rectangle(_buttonSqlInfo.Location.X, _buttonSqlInfo.Location.Y, _buttonSqlInfo.Width, _buttonSqlInfo.Height);
             _connectionStringRectangle = new Rectangle(LBL_CONNECTION.Location.X, LBL_CONNECTION.Location.Y, LBL_CONNECTION.Width, LBL_CONNECTION.Height);
-            _connectionStatusRectangle = new Rectangle(LBL_CONNECTION_STATUS.Location.X, LBL_CONNECTION_STATUS.Location.Y, LBL_CONNECTION_STATUS.Width, LBL_CONNECTION_STATUS.Height);
+            _connectionStatusRectangle = new Rectangle(_labelConnectionStatus.Location.X, _labelConnectionStatus.Location.Y, _labelConnectionStatus.Width, _labelConnectionStatus.Height);
         }
 
         private void ResizeControl(Rectangle r, Control c)
@@ -203,14 +201,14 @@ namespace Registration
             ResizeControl(_titleImageRectangle, IMG_BOX_TITLE);
             ResizeControl(_githubTextOriginalRectangle, LBL_GiTHUB);
             ResizeControl(_linkGitHubTextOriginalRectangle, LINK_LBL_GITHUB);
-            ResizeControl (_sqlInfoRectangle, BTN_SQL_INFO);
-            ResizeControl(_connectionStatusRectangle, LBL_CONNECTION_STATUS);
+            ResizeControl (_sqlInfoRectangle, _buttonSqlInfo);
+            ResizeControl(_connectionStatusRectangle, _labelConnectionStatus);
             ResizeControl(_connectionStringRectangle, LBL_CONNECTION);
         }
 
         private void DeleteRow()
         {
-            if (LBL_CONNECTION_STATUS.ForeColor != Color.Red)
+            if (_labelConnectionStatus.ForeColor != Color.Red)
             {
                 ConnectionForm.con.Open();
                 var command = new SqlCommand()
@@ -262,8 +260,7 @@ namespace Registration
       
         private void OnAddClicked(object sender, EventArgs e)
         {
-            DataGridForForms = DATA_GRID;
-            _userInput = new UserInput(_connectionForm)
+            _userInput = new UserInput(this, _connectionForm)
             {
                 DataGridView = DATA_GRID
             };
@@ -384,7 +381,7 @@ namespace Registration
                     FirstPass = true;
                 }
 
-                if (LBL_CONNECTION_STATUS.ForeColor == Color.Green && IdName != null && CurrentCellValue != null)
+                if (_labelConnectionStatus.ForeColor == Color.Green && IdName != null && CurrentCellValue != null)
                 {
                     var connection = new SqlConnection(_connectionForm.ConnectionString);
                     connection.Open();
@@ -440,7 +437,7 @@ namespace Registration
                 {
                     try
                     {
-                        int list_index = 0;
+                        var listIndex = 0;
 
                         string[] result = File.ReadAllLines(filePath);
 
@@ -452,7 +449,7 @@ namespace Registration
                         {
                             if (lines == "//")
                             {
-                                list_index++;
+                                listIndex++;
                                 setOfLists.Add(new List<string>());
                                 if (firstRoll == false)
                                 {
@@ -462,7 +459,7 @@ namespace Registration
                             }
                             else if (lines != "//")
                             {
-                                setOfLists[list_index].Add(lines);
+                                setOfLists[listIndex].Add(lines);
                                 counter++;
                             }
                         }
@@ -499,22 +496,20 @@ namespace Registration
         private void newToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             SetConnectionToOffline();
-            var f3 = new DatabaseEntry();
+            var f3 = new DatabaseEntry(this);
             f3.Show();
         }
 
         private void OnSaveAsClicked(object sender, EventArgs e)
         {
             SetConnectionToOffline();
-            var saveFiledialog = new SaveFileDialog();
+            var saveFileDialog = new SaveFileDialog();
 
-            if (saveFiledialog.ShowDialog() == DialogResult.OK)
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-
                 try
                 {
-                    var filepath = saveFiledialog.FileName + ".txt";
-
+                    var filepath = saveFileDialog.FileName + ".txt";
                     var stream = File.Open(filepath, FileMode.Create);
                     var writer = new StreamWriter(stream);
 
@@ -557,7 +552,7 @@ namespace Registration
 
         private void OnAddConnectionClicked(object sender, EventArgs e)
         {
-            _connectionForm = new ConnectionForm(DATA_GRID);
+            _connectionForm = new ConnectionForm(this);
             _connectionForm.Show();
         }
 
@@ -588,7 +583,7 @@ namespace Registration
 
         private void OnDataStyleClicked(object sender, EventArgs e)
         {
-            var frm = new StyleEditForm(DATA_GRID);
+            var frm = new StyleEditForm(this);
             frm.Show();
 
         }
