@@ -1,6 +1,6 @@
 ﻿namespace Registration
 {
-    partial class Main_window
+    partial class MainWindow
     {
         /// <summary>
         ///  Required designer variable.
@@ -30,7 +30,7 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main_window));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.DATA_GRID = new System.Windows.Forms.DataGridView();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Name_ = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -141,7 +141,7 @@
             this.BTN_ADD.TabIndex = 6;
             this.BTN_ADD.Text = "ADD ROW";
             this.BTN_ADD.UseVisualStyleBackColor = true;
-            this.BTN_ADD.Click += new System.EventHandler(this.BTN_ADD_Click_1);
+            this.BTN_ADD.Click += new System.EventHandler(this.OnAddClicked);
             // 
             // LINK_LBL_GITHUB
             // 
@@ -153,7 +153,7 @@
             this.LINK_LBL_GITHUB.TabIndex = 8;
             this.LINK_LBL_GITHUB.TabStop = true;
             this.LINK_LBL_GITHUB.Text = "https://github.com/Frosky404?tab=repositories";
-            this.LINK_LBL_GITHUB.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LINK_LBL_GITHUB_LinkClicked);
+            this.LINK_LBL_GITHUB.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OnGithubLinkClicked);
             // 
             // LBL_GiTHUB
             // 
@@ -214,7 +214,7 @@
             this.sqlConnectionToolStripMenuItem1.Name = "sqlConnectionToolStripMenuItem1";
             this.sqlConnectionToolStripMenuItem1.Size = new System.Drawing.Size(193, 22);
             this.sqlConnectionToolStripMenuItem1.Text = "SQL Server connection";
-            this.sqlConnectionToolStripMenuItem1.Click += new System.EventHandler(this.sqlConnectionToolStripMenuItem1_Click_1);
+            this.sqlConnectionToolStripMenuItem1.Click += new System.EventHandler(this.OnAddConnectionClicked);
             // 
             // openToolStripMenuItem1
             // 
@@ -228,14 +228,14 @@
             this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
             this.saveToolStripMenuItem1.Size = new System.Drawing.Size(109, 22);
             this.saveToolStripMenuItem1.Text = "Save";
-            this.saveToolStripMenuItem1.Click += new System.EventHandler(this.saveToolStripMenuItem1_Click);
+            this.saveToolStripMenuItem1.Click += new System.EventHandler(this.OnSaveClicked);
             // 
             // saveasToolStripMenuItem1
             // 
             this.saveasToolStripMenuItem1.Name = "saveasToolStripMenuItem1";
             this.saveasToolStripMenuItem1.Size = new System.Drawing.Size(109, 22);
             this.saveasToolStripMenuItem1.Text = "Saveas";
-            this.saveasToolStripMenuItem1.Click += new System.EventHandler(this.saveasToolStripMenuItem1_Click_1);
+            this.saveasToolStripMenuItem1.Click += new System.EventHandler(this.OnSaveAsClicked);
             // 
             // exitToolStripMenuItem1
             // 
@@ -310,7 +310,7 @@
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
-            this.helpToolStripMenuItem.Click += new System.EventHandler(this.helpToolStripMenuItem_Click);
+            this.helpToolStripMenuItem.Click += new System.EventHandler(this.OnHelpClicked);
             // 
             // fileToolStripMenuItem
             // 
@@ -424,7 +424,7 @@
             this.BTN_SQL_INFO.UseVisualStyleBackColor = true;
             this.BTN_SQL_INFO.Click += new System.EventHandler(this.BTN_SQL_INFO_Click);
             // 
-            // Main_window
+            // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -441,7 +441,7 @@
             this.Controls.Add(this.menuStrip1);
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Main_window";
+            this.Name = "MainWindow";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Registration";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);

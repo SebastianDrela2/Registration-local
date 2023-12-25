@@ -32,7 +32,7 @@ namespace Registration
             File.Create(data_base_path).Close();
             datagridview1.Rows.Clear();
 
-            Main_window.path = data_base_path;
+            MainWindow.Path = data_base_path;
            
            
             this.Close();

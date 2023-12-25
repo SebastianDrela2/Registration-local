@@ -1,99 +1,97 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Registration
+﻿namespace Registration
 {
-    public partial class Column_edit_form : Form
-
-
+    public partial class ColumnEditForm : Form
     {
+        private static DataGridView _dataGridView;
+        public ColumnEditForm(DataGridView dataGridView)
+        {
+            _dataGridView = dataGridView;
+            
+            InitializeComponent();
+        }
+
         public static void EmptySpaceFixer()
         {
-            for (int v = 0; v < User_input.Dvg.Columns.Count; v++)
+            for (var v = 0; v < _dataGridView.Columns.Count; v++)
             {
-                for (int p = 0; p < User_input.Dvg.Rows.Count; p++)
+                for (var p = 0; p < _dataGridView.Rows.Count; p++)
                 {
-                    if (String.IsNullOrEmpty(User_input.Dvg.Rows[p].Cells[v].Value as String))
+                    if (string.IsNullOrEmpty(_dataGridView.Rows[p].Cells[v].Value as string))
                     {
-                        User_input.Dvg.Rows[p].Cells[v].Value = "N/A";
+                        _dataGridView.Rows[p].Cells[v].Value = "N/A";
                     }
 
                 }
             }
         }
-        public Column_edit_form()
-        {
-            InitializeComponent();
-        }
 
         private void BTN_OK_Click(object sender, EventArgs e)
         {
-            User_input.Dvg.ClearSelection();
-            if (TXT_BOX_COLUMN.Enabled == true)
+            _dataGridView.ClearSelection();
+            if (TXT_BOX_COLUMN.Enabled)
             {
-                User_input.Dvg.Columns.Add(TXT_BOX_COLUMN.Text + "_" , TXT_BOX_COLUMN.Text);
+                _dataGridView.Columns.Add(TXT_BOX_COLUMN.Text + "_" , TXT_BOX_COLUMN.Text);
             }
 
-            if (TXT_BOX_DELETE.Enabled == true)
+            if (TXT_BOX_DELETE.Enabled)
             {
-                User_input.Dvg.Columns.Remove(TXT_BOX_DELETE.Text + "_");
+                _dataGridView.Columns.Remove(TXT_BOX_DELETE.Text + "_");
             }
 
-            if (TXT_BOX_RENAME.Enabled == true)
+            if (TXT_BOX_RENAME.Enabled)
             {
-                User_input.Dvg.Columns[""+TXT_BOX_RENAME.Text+"_"].HeaderText = TXT_BOX_FINISH_RENAME.Text;
-                User_input.Dvg.Columns["" + TXT_BOX_RENAME.Text + "_"].Name = TXT_BOX_FINISH_RENAME.Text + "_";
+                _dataGridView.Columns[""+TXT_BOX_RENAME.Text+"_"].HeaderText = TXT_BOX_FINISH_RENAME.Text;
+                _dataGridView.Columns["" + TXT_BOX_RENAME.Text + "_"].Name = TXT_BOX_FINISH_RENAME.Text + "_";
 
             }
 
-           EmptySpaceFixer();
-            User_input.Dvg.ClearSelection();
+            EmptySpaceFixer();
+            _dataGridView.ClearSelection();
         }
 
         private void CHCK_BOX_ADD_CheckedChanged(object sender, EventArgs e)
         {
-            if (CHCK_BOX_ADD.Checked == true)
+            if (CHCK_BOX_ADD.Checked)
             {
                 TXT_BOX_COLUMN.Enabled = true;
             }
             else
+            {
                 TXT_BOX_COLUMN.Enabled = false;
+            }
         }
 
         private void CHCK_BOX_DELETE_CheckedChanged(object sender, EventArgs e)
         {
-            if (CHCK_BOX_DELETE.Checked == true)
+            if (CHCK_BOX_DELETE.Checked)
             {
                 TXT_BOX_DELETE.Enabled = true;
             }
             else
+            {
                 TXT_BOX_DELETE.Enabled = false;
+            }
         }
 
         private void Form8_Load(object sender, EventArgs e)
         {
-            if (CHCK_BOX_DELETE.Checked == true)
+            if (CHCK_BOX_DELETE.Checked)
             {
                 TXT_BOX_DELETE.Enabled = true;
             }
             else
                 TXT_BOX_DELETE.Enabled = false;
 
-            if (CHCK_BOX_ADD.Checked == true)
+            if (CHCK_BOX_ADD.Checked)
             {
                 TXT_BOX_COLUMN.Enabled = true;
             }
             else
+            {
                 TXT_BOX_COLUMN.Enabled = false;
+            }
 
-            if (CHCK_BOX_RENAME.Checked == true)
+            if (CHCK_BOX_RENAME.Checked)
             {
                 TXT_BOX_RENAME.Enabled = true;
                 TXT_BOX_FINISH_RENAME.Enabled = true;
@@ -103,9 +101,9 @@ namespace Registration
                 TXT_BOX_RENAME.Enabled = false;
                 TXT_BOX_FINISH_RENAME.Enabled = false;
             }
-            }
+        }
 
-            private void CHCK_BOX_RENAME_CheckedChanged(object sender, EventArgs e)
+        private void CHCK_BOX_RENAME_CheckedChanged(object sender, EventArgs e)
         {
             if (CHCK_BOX_RENAME.Checked == true)
             {

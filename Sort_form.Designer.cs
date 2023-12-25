@@ -1,6 +1,6 @@
 ﻿namespace Registration
 {
-    partial class Sort_Form
+    partial class SortForm
     {
         /// <summary>
         /// Required designer variable.
@@ -85,7 +85,7 @@
             this.CHCK_BOX_DESC.UseVisualStyleBackColor = true;
             this.CHCK_BOX_DESC.CheckedChanged += new System.EventHandler(this.CHCK_BOX_DESC_CheckedChanged);
             // 
-            // Sort_Form
+            // SortForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -95,7 +95,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.BTN_OK);
             this.Controls.Add(this.LIST_BOX_COLUMNS);
-            this.Name = "Sort_Form";
+            this.Name = "SortForm";
             this.Text = "Sort";
             this.Load += new System.EventHandler(this.Form12_Load);
             this.ResumeLayout(false);

@@ -1,6 +1,6 @@
 ﻿namespace Registration
 {
-    partial class User_input
+    partial class UserInput
     {
         /// <summary>
         /// Required designer variable.
@@ -79,7 +79,7 @@
             this.BTN_OK.TabIndex = 14;
             this.BTN_OK.Text = "OK";
             this.BTN_OK.UseVisualStyleBackColor = true;
-            this.BTN_OK.Click += new System.EventHandler(this.BTN_OK_Click);
+            this.BTN_OK.Click += new System.EventHandler(this.OnOkClicked);
             // 
             // CHCK_BOX_YES
             // 
@@ -122,7 +122,7 @@
             this.BTN_FORM2_CLOSE.UseVisualStyleBackColor = true;
            
             // 
-            // User_input
+            // UserInput
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -138,7 +138,7 @@
             this.Controls.Add(this.TXT_BOX_NAME2);
             this.Controls.Add(this.LBL_SURNAME);
             this.Controls.Add(this.LBL_NAME);
-            this.Name = "User_input";
+            this.Name = "UserInput";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ADD";
             

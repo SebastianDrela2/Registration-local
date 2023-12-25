@@ -52,7 +52,7 @@ namespace Registration
                     
                     Console.WriteLine("Ta Tabelka: " + checkboxes[i].Text.ToString());
                     Console.Write(item + "i value: " + i);
-                    chart1.Series[values[i].ToString()].Points.AddXY(User_input.Dvg.Rows[j].Cells[result_of_selection + "_"].Value, item );
+                    chart1.Series[values[i].ToString()].Points.AddXY(UserInput.DataGridView.Rows[j].Cells[result_of_selection + "_"].Value, item );
                     Console.WriteLine();
                     j++;
 
@@ -75,12 +75,12 @@ namespace Registration
             {
                 
                 
-                int column_index = Int32.Parse(User_input.Dvg.Columns[values[i]+ "_"].Index.ToString());
+                int column_index = Int32.Parse(UserInput.DataGridView.Columns[values[i]+ "_"].Index.ToString());
                 results.Add(new List<int>());
 
-                for (int j = 0 ; j < User_input.Dvg.Rows.Count ; j++)
+                for (int j = 0 ; j < UserInput.DataGridView.Rows.Count ; j++)
                 {
-                    int value = Int32.Parse(User_input.Dvg.Rows[j].Cells[column_index].Value.ToString());
+                    int value = Int32.Parse(UserInput.DataGridView.Rows[j].Cells[column_index].Value.ToString());
                     results[i].Add(value);
                 }
             }
@@ -88,9 +88,9 @@ namespace Registration
         public void SelectedCheckBoxes()
         {
             
-            for (int i = 0  ; i <User_input.Dvg.Columns.Count ; i++)
+            for (int i = 0  ; i <UserInput.DataGridView.Columns.Count ; i++)
             {
-                string check = User_input.Dvg.Rows[0].Cells[i].Value.ToString();
+                string check = UserInput.DataGridView.Rows[0].Cells[i].Value.ToString();
                 if (checkboxes[i].Checked == true && Regex.IsMatch(check, @"^\d+$") == true)
                 {
 
@@ -126,9 +126,9 @@ namespace Registration
             int posx = 60;
             int posy = 15;
 
-            for (int i = 0 ; i  < User_input.Dvg.Columns.Count ; i++)
+            for (int i = 0 ; i  < UserInput.DataGridView.Columns.Count ; i++)
             {
-                string column_name = User_input.Dvg.Columns[i].HeaderText; 
+                string column_name = UserInput.DataGridView.Columns[i].HeaderText; 
                 checkboxes.Add(new CheckBox());
                 
 
@@ -150,9 +150,9 @@ namespace Registration
             }
             
             x_items.Location = new Point(posx + 20, posy);
-            for (int j = 0 ; j < User_input.Dvg.Columns.Count ; j++)
+            for (int j = 0 ; j < UserInput.DataGridView.Columns.Count ; j++)
             {
-                x_items.Items.Add(User_input.Dvg.Columns[j].HeaderText.ToString());
+                x_items.Items.Add(UserInput.DataGridView.Columns[j].HeaderText.ToString());
             }
            
             this.Controls.Add(x_items);

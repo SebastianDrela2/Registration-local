@@ -1,6 +1,6 @@
 ﻿namespace Registration
 {
-    partial class Connection_Form
+    partial class ConnectionForm
     {
         /// <summary>
         /// Required designer variable.
@@ -81,7 +81,7 @@
             this.BTN_PROCEED.UseVisualStyleBackColor = true;
             this.BTN_PROCEED.Click += new System.EventHandler(this.BTN_PROCEED_Click);
             // 
-            // Connection_Form
+            // _connectionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -91,7 +91,7 @@
             this.Controls.Add(this.BTN_OK);
             this.Controls.Add(this.TXT_BOT_CONNECTION);
             this.Controls.Add(this.label1);
-            this.Name = "Connection_Form";
+            this.Name = "ConnectionForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Connect";
             

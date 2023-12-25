@@ -1,151 +1,114 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Data.SqlClient;
 
 namespace Registration
 {
-    public partial class Main_window : Form
+    public partial class MainWindow : Form
     {
-        public static SqlConnection sql_con_refrence { get; set; }
-        public static Label label2 { get; set; }
-        public static Button Delete_for_form { get; set; }
-        public static Button Save_for_form { get; set; }
-        public static DataGridView data_grid_for_forms { get; set; }
-        public static Button SQL_INFO_for_form { get; set; }
-        public static bool runtime_checker { get; set; }
-        public static int result_column  {get; set;}
-        public bool first_pass = false;
-        public static string path  = "";
-        public static string cell_value = "";
-        public static DataTable data_table = new DataTable();
-        public static DataSet ds1 = new DataSet();
-        public static string font_data { get; set;}
+        public static Label Label2 { get; set; }
+        public static DataGridView DataGridForForms { get; set; }
+        public static Button SqlInfoForForm { get; set; }
+        public static bool RuntimeChecker { get; set; }
+        public static int ResultColumn  {get; set;}
+        public bool FirstPass;
+        public static string Path  = "";
+        public static string FontData { get; set;}
 
-        private Rectangle buttonOriginalRectangle;
-        private Rectangle DataGridOriginalRectangle;     
-        private Rectangle GithubTextOriginalRectangle;
-        private Rectangle LinkGitHubTextOriginalRectangle;    
-        private Rectangle originalFormSize;
-        private Rectangle title_imageRectangle;
-        private Rectangle sql_info_rectangle;
-        private Rectangle connection_string_rectangle;
-        private Rectangle connection_status_rectangle;
+        public int SelectedRowIndex;
+        public int SelectedColumnIndex;
+        public string RowName;
+        public string ColumnName;
+        public string CurrentCellValue;
+        public string IdName;
 
+        private Rectangle _buttonOriginalRectangle;
+        private Rectangle _dataGridOriginalRectangle;     
+        private Rectangle _githubTextOriginalRectangle;
+        private Rectangle _linkGitHubTextOriginalRectangle;    
+        private Rectangle _originalFormSize;
+        private Rectangle _titleImageRectangle;
+        private Rectangle _sqlInfoRectangle;
+        private Rectangle _connectionStringRectangle;
+        private Rectangle _connectionStatusRectangle;
 
-        public static bool changed = false;
+        private ConnectionForm _connectionForm;
+        public static bool changed;
         
-        public Main_window()
+        public MainWindow()
         {
             InitializeComponent();
-
-            
         }
         
-        
-
-        public  void Connection_status_Offline()
+        public  void SetConnectionToOffline()
         {
-            runtime_checker = false;
+            RuntimeChecker = false;
             LBL_CONNECTION_STATUS.Text = "O F F L I N E";
             LBL_CONNECTION_STATUS.ForeColor = Color.Red;
-            Connection_Form.SQL_Checker = false;
-            if (runtime_checker == true)
+            ConnectionForm.SqlChecker = false;
+            if (RuntimeChecker == true)
             {
-                Connection_Form.con.Close();
+                ConnectionForm.con.Close();
             }
-            runtime_checker = false;
-            
-           
 
-            
+            RuntimeChecker = false;
         }
-        public static void FileFunction(string tekst)
+        public static void ReadSettings(string fontPath)
         {
-            if (!File.Exists(tekst))
+            if (!File.Exists(fontPath))
             {
-                File.Create(tekst);
+                File.Create(fontPath);
             }
             else
             {
-                string[] readon = File.ReadAllLines(tekst);
-                data_grid_for_forms.Font = new Font(readon[0] , float.Parse(readon[1]));
+                string[] allLines = File.ReadAllLines(fontPath);
+                DataGridForForms.Font = new Font(allLines[0] , float.Parse(allLines[1]));
 
-                string[] fore_ground_components = readon[2].Split(',');
-                Color FC_Color = Color.FromArgb(Convert.ToInt32(fore_ground_components[0]),
-                               Convert.ToInt32(fore_ground_components[1]),
-                               Convert.ToInt32(fore_ground_components[2]),
-                               Convert.ToInt32(fore_ground_components[3]));
-                data_grid_for_forms.ForeColor = FC_Color;
+                var foreGroundComponents = allLines[2].Split(',');
+                var fcColor = Color.FromArgb(Convert.ToInt32(foreGroundComponents[0]),
+                               Convert.ToInt32(foreGroundComponents[1]),
+                               Convert.ToInt32(foreGroundComponents[2]),
+                               Convert.ToInt32(foreGroundComponents[3]));
+                DataGridForForms.ForeColor = fcColor;
 
-                string[] back_ground_components = readon[3].Split(',');
-                Color FB_Color = Color.FromArgb(Convert.ToInt32(back_ground_components[0]),
-                               Convert.ToInt32(back_ground_components[1]),
-                               Convert.ToInt32(back_ground_components[2]),
-                               Convert.ToInt32(back_ground_components[3]));
-                data_grid_for_forms.BackgroundColor = FB_Color;  
-
-
+                var backGroundComponents = allLines[3].Split(',');
+                var fbColor = Color.FromArgb(Convert.ToInt32(backGroundComponents[0]),
+                               Convert.ToInt32(backGroundComponents[1]),
+                               Convert.ToInt32(backGroundComponents[2]),
+                               Convert.ToInt32(backGroundComponents[3]));
+                DataGridForForms.BackgroundColor = fbColor;  
             }
-           
         }
          
-        public void DirectoryFunction(string tekst)
+        public void CreateDirIfItDoesNotExist(string dirPath)
         {
-            if (!Directory.Exists(tekst))
+            if (!Directory.Exists(dirPath))
             {
-                Directory.CreateDirectory(tekst);
+                Directory.CreateDirectory(dirPath);
             }
-           
+        }
 
-        }
-        public  void Connection_status_Online()
-        {
-            LBL_CONNECTION_STATUS.Text = "O N L I N E";
-            LBL_CONNECTION_STATUS.ForeColor = Color.Green;
-            Connection_Form.SQL_Checker = true;
-           
-            
-        }
         private void Form1_Load(object sender, EventArgs e)
         {
-            data_grid_for_forms = DATA_GRID;
-            path = "";
-            string column_directory_path = Application.StartupPath + "\\Columns";
-            string data_directory_path = Application.StartupPath + "\\Data";
-            font_data = Application.StartupPath + "\\font.txt";
-            Console.WriteLine(column_directory_path);
-            Console.WriteLine(data_directory_path);
-            Console.WriteLine(font_data);
-
-            FileFunction(font_data);
+            DataGridForForms = DATA_GRID;
+            Path = "";
+            var columnDirectoryPath = Application.StartupPath + "\\Columns";
+            var dataDirectoryPath = Application.StartupPath + "\\Data";
+            FontData = Application.StartupPath + "\\font.txt";
+            
+            ReadSettings(FontData);
            
-            DirectoryFunction(column_directory_path);
-            DirectoryFunction(data_directory_path);
+            CreateDirIfItDoesNotExist(columnDirectoryPath);
+            CreateDirIfItDoesNotExist(dataDirectoryPath);
 
-
-
-            LBL_CONNECTION_STATUS.Text = "O F F L I N E";
+            LBL_CONNECTION_STATUS.Text = @"O F F L I N E";
             LBL_CONNECTION_STATUS.ForeColor = Color.Red;
-            Connection_Form.SQL_Checker = false;
-
-            Main_window f1 = new Main_window();
-            User_input.Dvg = DATA_GRID;
+            ConnectionForm.SqlChecker = false;
             Search_form.dvg = DATA_GRID;
             
-
-            label2 = LBL_CONNECTION_STATUS;
+            Label2 = LBL_CONNECTION_STATUS;
             
-            
-            SQL_INFO_for_form = BTN_SQL_INFO;
+            SqlInfoForForm = BTN_SQL_INFO;
 
             if (LBL_CONNECTION_STATUS.ForeColor == Color.Red)
             {
@@ -159,43 +122,36 @@ namespace Registration
                  foreach (var lime in limes)
                 {
                     DATA_GRID.Columns.Add(lime + "_" , lime);
-                    Console.WriteLine("added column " + lime);
                 }
-                 Console.WriteLine("Test 1");
                 
             }
             Database_entry.datagridview1 = DATA_GRID;
             if (File.Exists(Application.StartupPath + "/Data/entire_data.txt") == true)
             {
-                string[] lines_rows = File.ReadAllLines(Application.StartupPath+ "/Data/entire_data.txt");
-                int counter_row = 0;
-                foreach (string line in lines_rows)
+                string[] allLines = File.ReadAllLines(Application.StartupPath+ "/Data/entire_data.txt");
+                var counterRow = 0;
+                foreach (var line in allLines)
                 {
                     if (line != "//")
                     {
-                        counter_row++;
+                        counterRow++;
                     }
                     else if (line == "//")
                     {
                         break;
                     }
-
                 }
 
-               
-                for (int i = 0; i < counter_row; i++)
+                for (var i = 0; i < counterRow; i++)
                 {
                     DATA_GRID.Rows.Add();
                 }
-               
+                
+                var s = 0;
+                var l = 0;
 
-                int s = 0;
-                int l = 0;
-
-                foreach (string line in lines_rows)
+                foreach (var line in allLines)
                 {
-                   Console.WriteLine("Column : " + s);
-
                     if (line != "//")
                     {
                         DATA_GRID.Rows[l].Cells[s].Value = line;
@@ -208,36 +164,31 @@ namespace Registration
                         s++;
                         l = 0;
                     }    
-                    
-
                 }
-
-
-
             }
-                originalFormSize = new Rectangle(this.Location.X, this.Location.Y, this.Size.Width, this.Size.Height);
-            buttonOriginalRectangle = new Rectangle(BTN_ADD.Location.X, BTN_ADD.Location.Y, BTN_ADD.Width, BTN_ADD.Height);
+            _originalFormSize = new Rectangle(this.Location.X, this.Location.Y, this.Size.Width, this.Size.Height);
+            _buttonOriginalRectangle = new Rectangle(BTN_ADD.Location.X, BTN_ADD.Location.Y, BTN_ADD.Width, BTN_ADD.Height);
             
-            DataGridOriginalRectangle = new Rectangle(DATA_GRID.Location.X, DATA_GRID.Location.Y, DATA_GRID.Width, DATA_GRID.Height);
-            title_imageRectangle = new Rectangle(IMG_BOX_TITLE.Location.X, IMG_BOX_TITLE.Location.Y, IMG_BOX_TITLE.Width, IMG_BOX_TITLE.Height);
-            GithubTextOriginalRectangle = new Rectangle(LBL_GiTHUB.Location.X, LBL_GiTHUB.Location.Y, LBL_GiTHUB.Width, LBL_GiTHUB.Height);
-            LinkGitHubTextOriginalRectangle = new Rectangle(LINK_LBL_GITHUB.Location.X, LINK_LBL_GITHUB.Location.Y, LINK_LBL_GITHUB.Width, LINK_LBL_GITHUB.Height);
+            _dataGridOriginalRectangle = new Rectangle(DATA_GRID.Location.X, DATA_GRID.Location.Y, DATA_GRID.Width, DATA_GRID.Height);
+            _titleImageRectangle = new Rectangle(IMG_BOX_TITLE.Location.X, IMG_BOX_TITLE.Location.Y, IMG_BOX_TITLE.Width, IMG_BOX_TITLE.Height);
+            _githubTextOriginalRectangle = new Rectangle(LBL_GiTHUB.Location.X, LBL_GiTHUB.Location.Y, LBL_GiTHUB.Width, LBL_GiTHUB.Height);
+            _linkGitHubTextOriginalRectangle = new Rectangle(LINK_LBL_GITHUB.Location.X, LINK_LBL_GITHUB.Location.Y, LINK_LBL_GITHUB.Width, LINK_LBL_GITHUB.Height);
            
-            sql_info_rectangle = new Rectangle(BTN_SQL_INFO.Location.X, BTN_SQL_INFO.Location.Y, BTN_SQL_INFO.Width, BTN_SQL_INFO.Height);
-            connection_string_rectangle = new Rectangle(LBL_CONNECTION.Location.X, LBL_CONNECTION.Location.Y, LBL_CONNECTION.Width, LBL_CONNECTION.Height);
-            connection_status_rectangle = new Rectangle(LBL_CONNECTION_STATUS.Location.X, LBL_CONNECTION_STATUS.Location.Y, LBL_CONNECTION_STATUS.Width, LBL_CONNECTION_STATUS.Height);
+            _sqlInfoRectangle = new Rectangle(BTN_SQL_INFO.Location.X, BTN_SQL_INFO.Location.Y, BTN_SQL_INFO.Width, BTN_SQL_INFO.Height);
+            _connectionStringRectangle = new Rectangle(LBL_CONNECTION.Location.X, LBL_CONNECTION.Location.Y, LBL_CONNECTION.Width, LBL_CONNECTION.Height);
+            _connectionStatusRectangle = new Rectangle(LBL_CONNECTION_STATUS.Location.X, LBL_CONNECTION_STATUS.Location.Y, LBL_CONNECTION_STATUS.Width, LBL_CONNECTION_STATUS.Height);
         }
 
         private void resizeControl(Rectangle r, Control c)
         {
-            float xRatio = (float)(this.Width) / (float)(originalFormSize.Width);
-            float yRatio = (float)(this.Height) / (float)(originalFormSize.Height);
+            var xRatio = Width / (float)(_originalFormSize.Width);
+            var yRatio = Height / (float)(_originalFormSize.Height);
 
-            int newX = (int)(r.Location.X * xRatio);
-            int newY = (int)(r.Location.Y * yRatio);
+            var newX = (int)(r.Location.X * xRatio);
+            var newY = (int)(r.Location.Y * yRatio);
 
-            int newWidth = (int)(r.Width * xRatio);
-            int newHeight = (int)(r.Height * yRatio);
+            var newWidth = (int)(r.Width * xRatio);
+            var newHeight = (int)(r.Height * yRatio);
 
             c.Location = new Point(newX, newY);
             c.Size = new Size(newWidth, newHeight);
@@ -245,72 +196,60 @@ namespace Registration
 
         private void resizeControlChildren()
         {
-            resizeControl(buttonOriginalRectangle, BTN_ADD);
+            resizeControl(_buttonOriginalRectangle, BTN_ADD);
             
-            resizeControl(DataGridOriginalRectangle, DATA_GRID);
-            resizeControl(title_imageRectangle, IMG_BOX_TITLE);
-            resizeControl(GithubTextOriginalRectangle, LBL_GiTHUB);
-            resizeControl(LinkGitHubTextOriginalRectangle, LINK_LBL_GITHUB);
+            resizeControl(_dataGridOriginalRectangle, DATA_GRID);
+            resizeControl(_titleImageRectangle, IMG_BOX_TITLE);
+            resizeControl(_githubTextOriginalRectangle, LBL_GiTHUB);
+            resizeControl(_linkGitHubTextOriginalRectangle, LINK_LBL_GITHUB);
             
-            resizeControl (sql_info_rectangle, BTN_SQL_INFO);
-            resizeControl(connection_status_rectangle, LBL_CONNECTION_STATUS);
-            resizeControl(connection_string_rectangle, LBL_CONNECTION);
+            resizeControl (_sqlInfoRectangle, BTN_SQL_INFO);
+            resizeControl(_connectionStatusRectangle, LBL_CONNECTION_STATUS);
+            resizeControl(_connectionStringRectangle, LBL_CONNECTION);
         }
 
-        private void DELETE_Function()
+        private void DeleteRow()
         {
             if (LBL_CONNECTION_STATUS.ForeColor != Color.Red)
             {
-                Connection_Form.con.Open();
+                ConnectionForm.con.Open();
                 SqlCommand command = new SqlCommand()
                 {
-                    Connection = Connection_Form.con,
+                    Connection = ConnectionForm.con,
                     CommandType = CommandType.Text,
-                    CommandText = "DELETE FROM " + Connection_Form.data_table + " WHERE ID = " + DATA_GRID.CurrentCell.Value + ""
+                    CommandText = "DELETE FROM " + ConnectionForm.DataTable + " WHERE ID = " + DATA_GRID.CurrentCell.Value + ""
                 };
 
                 command.ExecuteNonQuery();
-                Connection_Form.con.Close();
+                ConnectionForm.con.Close();
                 DATA_GRID.Rows.RemoveAt(this.DATA_GRID.SelectedRows[0].Index);
 
             }
             else
             {
-
-
                 if (DATA_GRID.Rows.Count == 0)
                 {
-                    User_input.id_count = 0;
+                    UserInput.id_count = 0;
                 }
-
 
                 if (DATA_GRID.Rows.Count == 1)
                 {
                     DATA_GRID.Rows.Clear();
-                    User_input.id_count = 0;
+                    UserInput.id_count = 0;
                 }
                 else
                 {
 
-                    int counter = 0;
-                    int selected_row = DATA_GRID.CurrentCell.RowIndex;
+                    var counter = 0;
+                    var selected_row = DATA_GRID.CurrentCell.RowIndex;
                     selected_row++;
 
+                    var row_count = DATA_GRID.Rows.Count;
+                    var operationValue = row_count - selected_row;
 
-
-                    int row_count = DATA_GRID.Rows.Count;
-
-                    int operation_value = 0;
-
-
-                    operation_value = row_count - selected_row;
-
-
-
-                    while (counter < operation_value)
-
+                    while (counter < operationValue)
                     {
-                        DATA_GRID.Rows[selected_row].Cells[0].Value = Int32.Parse(DATA_GRID.Rows[selected_row].Cells[0].Value.ToString()) - 1;
+                        DATA_GRID.Rows[selected_row].Cells[0].Value = int.Parse(DATA_GRID.Rows[selected_row].Cells[0].Value.ToString()) - 1;
 
 
                         selected_row++;
@@ -320,145 +259,104 @@ namespace Registration
                     }
 
                     DATA_GRID.Rows.RemoveAt(this.DATA_GRID.SelectedRows[0].Index);
-                    int lastindex = DATA_GRID.Rows.Count - 1;
+                    var lastindex = DATA_GRID.Rows.Count - 1;
 
-
-
-                    User_input.id_count = Int32.Parse(DATA_GRID.Rows[lastindex].Cells[0].Value.ToString());
+                    UserInput.id_count = int.Parse(DATA_GRID.Rows[lastindex].Cells[0].Value.ToString());
                 }
             }
         }
-            private void BTN_ADD_Click(object sender, EventArgs e)
-                
+      
+        private void OnAddClicked(object sender, EventArgs e)
         {
-          
-
-            
-        }
-
-        private void BTN_ADD_Click_1(object sender, EventArgs e)
-        {
-            Console.WriteLine("not up to date");
-            data_grid_for_forms = DATA_GRID;
-            User_input.TxtBoxList.Clear();
-            User_input frm = new User_input();
-            frm.Show();
-            
+            DataGridForForms = DATA_GRID;
+            var userInput = new UserInput(_connectionForm);
+            userInput.DataGridView = DATA_GRID;
+            userInput.Show();
             
             DATA_GRID.AllowUserToAddRows = false;
-            
         }
 
-        private void LINK_LBL_GITHUB_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void OnGithubLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start(new ProcessStartInfo("https://github.com/SebastianDrela2") { UseShellExecute = true });
             
         }
-
-       
-
-       
 
         private void Form1_Resize(object sender, EventArgs e)
         {
             resizeControlChildren();
         }
         
-        
         private void Save()
         {
-            User_input.entire_data.Clear();
-            int counter = DATA_GRID.Columns.Count;
+            UserInput.entire_data.Clear();
+            var counter = DATA_GRID.Columns.Count;
 
             for (int i = 0; i < counter; i++)
             {
                 for ( int j = 0; j < DATA_GRID.Rows.Count; j++)
                 {
-                    User_input.entire_data.Add(DATA_GRID.Rows[j].Cells[i].Value.ToString());
+                    UserInput.entire_data.Add(DATA_GRID.Rows[j].Cells[i].Value.ToString());
                 }
-               
                 
-                
-                User_input.entire_data.Add("//");
+                UserInput.entire_data.Add("//");
             }
 
-            List<string> columns = new List<string>();
+            var columns = new List<string>();
             for (int k = 0; k < DATA_GRID.Columns.Count; k++)
             {
                 columns.Add(DATA_GRID.Columns[k].HeaderText);
             }
             changed = false;
-            if (File.Exists(path))
+            if (File.Exists(Path))
             {
-                Console.WriteLine(path.ToString());
-                File.Create(path).Close();
-                File.WriteAllLines(path, User_input.entire_data);
-
-
-
+                Console.WriteLine(Path);
+                File.Create(Path).Close();
+                File.WriteAllLines(Path, UserInput.entire_data);
                 File.WriteAllLines(Application.StartupPath + "/Columns/" + Database_entry.path_no_txt + "_columns_data.txt", columns);
             }
-                
             
             File.Create(Application.StartupPath + "/Data/entire_data.txt").Close();
-            File.WriteAllLines(Application.StartupPath + "/Data/entire_data.txt", User_input.entire_data);
+            File.WriteAllLines(Application.StartupPath + "/Data/entire_data.txt", UserInput.entire_data);
             File.Create(Application.StartupPath + "/Columns/entire_data_columns_data.txt").Close();
             File.WriteAllLines(Application.StartupPath + "/Columns/entire_data_columns_data.txt" , columns );
-
-
-
-            
-           
         }
             
-        private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void OnSaveClicked(object sender, EventArgs e)
         {
-            Connection_status_Offline();
+            SetConnectionToOffline();
             Save();
 
-        }
-       
-        private void BTN_SAVE_Click(object sender, EventArgs e)
-        {
-            Connection_status_Offline();
-            Save();
         }
         
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        private void OnFormClosing(object sender, FormClosingEventArgs e)
         {
-           if (changed == true)
+            if (changed)
             {
-                DialogResult dialogresult = MessageBox.Show("Unsaved Changes close?", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult dialogresult = MessageBox.Show("Unsaved Changes close?", "Exit", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
                 if (dialogresult != DialogResult.No)
                 {
-
                     e.Cancel = false;
                 }
 
-                if(dialogresult != DialogResult.Yes)
+                if (dialogresult != DialogResult.Yes)
                 {
                     e.Cancel = true;
                 }
             }
-            List<string> columns = new List<string>();
-           for (int i = 0; i < DATA_GRID.Columns.Count; i++)
+
+            var columns = new List<string>();
+            for (var i = 0; i < DATA_GRID.Columns.Count; i++)
             {
                 columns.Add(DATA_GRID.Columns[i].HeaderText);
-
             }
-             
-          
-           
-            
-           
-            
         }
         
 
-        private void exitToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void OnExitClicked(object sender, EventArgs e)
         {
-            
-            if (changed == true)
+            if (changed)
             {
                 DialogResult dialogresult = MessageBox.Show("Unsaved Changes close?", "Exit", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
                 if (dialogresult != DialogResult.No)
@@ -470,203 +368,170 @@ namespace Registration
             {
                 Application.Exit();
             }
-          
-           
         }
         
-        private void DATA_GRID_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        private void OnDataGridCellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-
-
-            
-            
-            if (Connection_Form.connection_string != null && DATA_GRID.SelectedCells.Count >= 1 )
+            if (DATA_GRID.SelectedCells.Count >= 1 )
             {
-                selected_row_index = DATA_GRID.SelectedCells[0].RowIndex;
-                selected_column_index = DATA_GRID.SelectedCells[0].ColumnIndex;
-                row_name = DATA_GRID.Rows[selected_row_index].ToString();
-                column_name = DATA_GRID.Columns[selected_column_index].HeaderText;
-                DataGridViewRow selectedRow = DATA_GRID.Rows[selected_row_index];
-                current_cell_value = selectedRow.Cells[selected_column_index].Value.ToString();
-                id_name = DATA_GRID.Rows[selected_row_index].Cells[0].Value.ToString();
+                SelectedRowIndex = DATA_GRID.SelectedCells[0].RowIndex;
+                SelectedColumnIndex = DATA_GRID.SelectedCells[0].ColumnIndex;
+                RowName = DATA_GRID.Rows[SelectedRowIndex].ToString();
+                ColumnName = DATA_GRID.Columns[SelectedColumnIndex].HeaderText;
+                var selectedRow = DATA_GRID.Rows[SelectedRowIndex];
+                CurrentCellValue = selectedRow.Cells[SelectedColumnIndex].Value.ToString();
+                IdName = DATA_GRID.Rows[SelectedRowIndex].Cells[0].Value.ToString();
 
-                if (first_pass == false)
+                if (FirstPass == false)
                 {
-                    SqlConnection connection = new SqlConnection(Connection_Form.connection_string);
-                    
-                    first_pass = true;
+                    FirstPass = true;
                 }
 
-                if (LBL_CONNECTION_STATUS.ForeColor == Color.Green && id_name != null && current_cell_value != null)
+                if (LBL_CONNECTION_STATUS.ForeColor == Color.Green && IdName != null && CurrentCellValue != null)
                 {
                     
-                    Console.WriteLine("ID : " + current_cell_value);
-                    Console.WriteLine("Data: " + id_name);
-                    SqlConnection connection = new SqlConnection(Connection_Form.connection_string);
+                    Console.WriteLine("ID : " + CurrentCellValue);
+                    Console.WriteLine("Data: " + IdName);
+                    SqlConnection connection = new SqlConnection(_connectionForm.ConnectionString);
                     connection.Open();
                     
                     SqlCommand command = new SqlCommand
                     {
                         Connection = connection,
                         CommandType = CommandType.Text,
-                        CommandText = "UPDATE UserData SET " + column_name + " = '" + current_cell_value + "' WHERE ID = " + id_name
+                        CommandText = "UPDATE UserData SET " + ColumnName + " = '" + CurrentCellValue + "' WHERE ID = " + IdName
 
                     };
                     command.ExecuteNonQuery();
                     
 
-                    Console.WriteLine("UPDATE UserData SET " + column_name + " = '" + current_cell_value + "' WHERE ID = " + id_name);
+                    Console.WriteLine("UPDATE UserData SET " + ColumnName + " = '" + CurrentCellValue + "' WHERE ID = " + IdName);
                 }
             }
         }
 
-        private void DATA_GRID_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        private void OnCellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
         {
             changed = true;
-            
         }
 
-
-       
-       
-        private void openToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void OnOpenClicked(object sender, EventArgs e)
         {
-            
-            
-            if (label2.ForeColor != Color.Green)
+            if (Label2.ForeColor != Color.Green)
             {
                 Save();
             }
-              
-            OpenFileDialog openfiledialog = new OpenFileDialog();
-            
-                
-                
 
-              
-            string filepath = String.Empty;
-            string fileext = String.Empty;
+            var openfiledialog = new OpenFileDialog();
 
-          
+            string filepath = string.Empty;
+            string fileext = string.Empty;
+
             if (openfiledialog.ShowDialog() == DialogResult.OK)
             {
-                Connection_status_Offline();
-                List<string> id_set = new List<string>();
-                List<string> name_set = new List<string>();
-                List<string> surname_set = new List<string>();
-                List<string> registration_status_set = new List<string>();
-                List<List<string>> set_of_lists = new List<List<string>>();
+                SetConnectionToOffline();
+               
+                var set_of_lists = new List<List<string>>();
 
-                
+
                 filepath = openfiledialog.FileName;
-                fileext = Path.GetExtension(filepath);
-                string file_path_no_txt = Path.GetFileNameWithoutExtension(filepath);
-                path = filepath;
+                fileext = System.IO.Path.GetExtension(filepath);
+                string file_path_no_txt = System.IO.Path.GetFileNameWithoutExtension(filepath);
+                Path = filepath;
 
-                string[] limes = File.ReadAllLines(Application.StartupPath + "/Columns/" + file_path_no_txt + "_columns_data.txt");
+                string[] limes =
+                    File.ReadAllLines(Application.StartupPath + "/Columns/" + file_path_no_txt + "_columns_data.txt");
 
                 DATA_GRID.Columns.Clear();
                 foreach (string lime_single in limes)
                 {
-                    DATA_GRID.Columns.Add(lime_single + "_" , lime_single);
+                    DATA_GRID.Columns.Add(lime_single + "_", lime_single);
                 }
 
-                    if (fileext.CompareTo(".txt") == 0)
+                if (fileext.CompareTo(".txt") == 0)
+                {
+                    try
                     {
-                        try
-                        {
-                            int list_index = 0;
-                        
-                            string[] result = File.ReadAllLines(filepath);
-                      
-                            bool first_roll = false;
-                            
-                            int counter = 0;
-                            int final_counter = 0;
+                        int list_index = 0;
+
+                        string[] result = File.ReadAllLines(filepath);
+
+                        bool first_roll = false;
+
+                        int counter = 0;
+                        int final_counter = 0;
                         set_of_lists.Add(new List<string>());
                         foreach (var lines in result)
+                        {
+                            if (lines == "//")
                             {
-                                
-                               if (lines == "//")
-                               {
                                 list_index++;
                                 set_of_lists.Add(new List<string>());
-                                 if (first_roll == false)
+                                if (first_roll == false)
                                 {
                                     final_counter = counter;
-                                    first_roll = true; 
+                                    first_roll = true;
                                 }
-                               }
-                               else if (lines != "//")
+                            }
+                            else if (lines != "//")
                             {
                                 set_of_lists[list_index].Add(lines);
                                 counter++;
-                                
                             }
-                            }
-                       
-                        User_input.Dvg.Rows.Clear();
-                        
+                        }
+
+                        UserInput.DataGridView.Rows.Clear();
+
                         int column_index = 0;
                         for (int j = 0; j < final_counter; j++)
                         {
                             DATA_GRID.Rows.Add();
                         }
+
                         foreach (var list in set_of_lists)
-                        { 
+                        {
                             for (int row_index = 0; row_index < list.Count; row_index++)
                             {
                                 DATA_GRID.Rows[row_index].Cells[column_index].Value = list[row_index];
-                                
                             }
-                           
+
                             column_index++;
                         }
-                        User_input.id_count = final_counter;
-                        Connection_status_Offline();
-                    }
-                           
 
-                        catch (Exception ex)
-                        {
-
-                        }
+                        UserInput.id_count = final_counter;
+                        SetConnectionToOffline();
                     }
-                
+                    catch
+                    {
+                        //
+                    }
+                }
             }
-            
-                
-            
         }
 
         private void newToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Connection_status_Offline();
+            SetConnectionToOffline();
             Database_entry f3 = new Database_entry();
             f3.Show();
         }
 
-        private void saveasToolStripMenuItem1_Click_1(object sender, EventArgs e)
+        private void OnSaveAsClicked(object sender, EventArgs e)
         {
-            Connection_status_Offline();
-            SaveFileDialog saveFiledialog = new SaveFileDialog();
-            string filepath = String.Empty;
-            string fileext = String.Empty;
-
-
+            SetConnectionToOffline();
+            var saveFiledialog = new SaveFileDialog();
+            var filepath = String.Empty;
+            var fileText = String.Empty;
 
             if (saveFiledialog.ShowDialog() == DialogResult.OK)
             {
 
                 try
                 {
-                    List<string> full_data = new List<string>();
                     filepath = saveFiledialog.FileName + ".txt";
 
-                    Stream s = File.Open(filepath, FileMode.Create);
-                    StreamWriter writer = new StreamWriter(s);
-
-                    Console.WriteLine(filepath.ToString());
+                    var stream = File.Open(filepath, FileMode.Create);
+                    var writer = new StreamWriter(stream);
 
                     bool last_run = false;
                     for (int i = 0; i < DATA_GRID.Columns.Count; i++)
@@ -690,99 +555,39 @@ namespace Registration
                        
                     }
 
-
-
-
                     writer.Close();
-
-
-
-
                 }
-                catch (Exception ex)
+                catch
                 {
-
-                }
-
-            }
-            }
-        private void DATA_GRID_ColumnHeaderMouseClick(object sender , DataGridViewCellMouseEventArgs e)
-        {
-            if (this.DATA_GRID.Columns[e.ColumnIndex].Name == "ID")
-            {
-                try
-                {
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Cannot Reorder ID Values");
+                    // ignored
                 }
             }
         }
-
-       
-
+        
         private void searchToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            Search_form form4 = new Search_form();
-
+            var form4 = new Search_form();
             form4.Show();
         }
 
-        private void DATA_GRID_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void OnAddConnectionClicked(object sender, EventArgs e)
         {
-            if (e.ColumnIndex == 3)
-            {
-                if (DATA_GRID.CurrentCell.Value.ToString() == "Yes")
-                {
-                    DATA_GRID.CurrentCell.Value = "No";
-                }
-                else if (DATA_GRID.CurrentCell.Value.ToString() == "No")
-                {
-                    DATA_GRID.CurrentCell.Value = "Yes";
-
-                }
-            }
-        }
-
-        private void sqlConnectionToolStripMenuItem1_Click_1(object sender, EventArgs e)
-        {
-            Connection_Form f5 = new Connection_Form();
-            f5.Show();
+            _connectionForm = new ConnectionForm();
+            _connectionForm.Show();
         }
 
         private void BTN_SQL_INFO_Click(object sender, EventArgs e)
         {
-            
-           
-            MessageBox.Show("Ammount of Columns in SQl server : " + result_column.ToString());
-
-            
+            MessageBox.Show(@"Ammount of Columns in SQl server : " + ResultColumn);
         }
-
-        private void columnToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Column_edit_form frm = new Column_edit_form();
-            frm.Show();
-        }
-
-       
 
         private void columnsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           Column_edit_form frm = new Column_edit_form();
-                frm.Show();
+           var frm = new ColumnEditForm();
+           frm.Show();
         }
-        public int selected_row_index;
-        public int selected_column_index;
-        public string row_name;
-        public string column_name;
-        public string current_cell_value;
-        public string id_name;
-       
 
-        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OnHelpClicked(object sender, EventArgs e)
         {
             MessageBox.Show($"Rows Can be deleted by pressing DELETE on keyboard and selecting given row" +
                            $" File can be saved by pressing Ctrl + S");
@@ -807,20 +612,18 @@ namespace Registration
         {
             if ( e.KeyCode == Keys.Delete)
             {
-               
-                DELETE_Function();
+                DeleteRow();
             }
-            else if (e.Control && e.KeyCode == Keys.S)
-              {
+            else if (e is { Control: true, KeyCode: Keys.S })
+            { 
                 Save();
-                Connection_status_Offline();
-             }
-            
+                SetConnectionToOffline();
+            }
         }
 
         private void sortToolStripMenuItem_Click_2(object sender, EventArgs e)
         {
-            Sort_Form frm = new Sort_Form();
+            var frm = new SortForm();
             frm.Show();
         }
     }

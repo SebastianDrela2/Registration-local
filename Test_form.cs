@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Registration
+﻿namespace Registration
 {
     public partial class Test_form : Form
     {
@@ -22,7 +12,7 @@ namespace Registration
 
             List<TextBox> TxtBoxList = new List<TextBox>();
             List<Label> LabelList = new List<Label>();
-            for (int i = 1; i < User_input.Dvg.Columns.Count; i++)
+            for (int i = 1; i < UserInput.DataGridView.Columns.Count; i++)
             {
                 TxtBoxList.Add(new TextBox());
                 LabelList.Add(new Label());
@@ -40,17 +30,17 @@ namespace Registration
                 
                 
                     label.Location = new Point(posx - 100, posy);
-                    label.Text = User_input.Dvg.Columns[i].HeaderText.ToString() + ":";
+                    label.Text = UserInput.DataGridView.Columns[i].HeaderText.ToString() + ":";
                     this.Controls.Add(label);
                 
                 posy += 36;
             }
-            User_input.Dvg.Rows.Add();
-            int row_counter = User_input.Dvg.Rows.Count;
-            int column_counter = User_input.Dvg.Columns.Count;
+            UserInput.DataGridView.Rows.Add();
+            int row_counter = UserInput.DataGridView.Rows.Count;
+            int column_counter = UserInput.DataGridView.Columns.Count;
             for (int j = 1; j < column_counter; j++)
             {
-                User_input.Dvg.Rows[row_counter].Cells[j].Value = TxtBoxList[j].Text;
+                UserInput.DataGridView.Rows[row_counter].Cells[j].Value = TxtBoxList[j].Text;
              }
         }
 

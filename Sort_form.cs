@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.ComponentModel;
 
 namespace Registration
 {
-    public partial class Sort_Form : Form
+    public partial class SortForm : Form
     {
-        public Sort_Form()
+        public SortForm()
         {
             InitializeComponent();
         }
         private void LoadColumnsIntoListBox()
         {
-            for (int i = 0 ; i < User_input.Dvg.Columns.Count ; i++)
+            for (int i = 0 ; i < UserInput.DataGridView.Columns.Count ; i++)
             {
-                var columns = User_input.Dvg.Columns[i].HeaderText.ToString();
+                var columns = UserInput.DataGridView.Columns[i].HeaderText.ToString();
                 LIST_BOX_COLUMNS.Items.Add(columns);
             }
         }
@@ -31,31 +23,21 @@ namespace Registration
        
         private void BTN_OK_Click(object sender, EventArgs e)
         {
-             string checked_box_header;
-            int result = LIST_BOX_COLUMNS.SelectedIndex;
-            if (CHCK_BOX_ASCV.Checked == true)
+            var result = LIST_BOX_COLUMNS.SelectedIndex;
+            if (CHCK_BOX_ASCV.Checked)
             {
-                checked_box_header = CHCK_BOX_ASCV.Text;
-                User_input.Dvg.Sort(User_input.Dvg.Columns[result], ListSortDirection.Ascending);
-                
+                UserInput.DataGridView.Sort(UserInput.DataGridView.Columns[result], ListSortDirection.Ascending);
             }
 
-            
-            else if (CHCK_BOX_DESC.Checked == true)
+            else if (CHCK_BOX_DESC.Checked)
             {
-                checked_box_header = CHCK_BOX_DESC.Text;
-                User_input.Dvg.Sort(User_input.Dvg.Columns[result], ListSortDirection.Descending);
+                UserInput.DataGridView.Sort(UserInput.DataGridView.Columns[result], ListSortDirection.Descending);
             }
-
-            
-            
-            
-           
         }
 
         private void CHCK_BOX_ASCV_CheckedChanged(object sender, EventArgs e)
         {
-            if (CHCK_BOX_ASCV.Checked == true)
+            if (CHCK_BOX_ASCV.Checked)
             {
                 CHCK_BOX_DESC.Checked = false;
             }
@@ -63,7 +45,7 @@ namespace Registration
 
         private void CHCK_BOX_DESC_CheckedChanged(object sender, EventArgs e)
         {
-            if (CHCK_BOX_DESC.Checked == true)
+            if (CHCK_BOX_DESC.Checked)
             {
                 CHCK_BOX_ASCV.Checked = false;
             }

@@ -1,6 +1,6 @@
 ﻿namespace Registration
 {
-    partial class Column_edit_form
+    partial class ColumnEditForm
     {
         /// <summary>
         /// Required designer variable.
@@ -136,7 +136,7 @@
             this.TXT_BOX_FINISH_RENAME.Size = new System.Drawing.Size(86, 20);
             this.TXT_BOX_FINISH_RENAME.TabIndex = 10;
             // 
-            // Column_edit_form
+            // ColumnEditForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -152,7 +152,7 @@
             this.Controls.Add(this.BTN_OK);
             this.Controls.Add(this.TXT_BOX_COLUMN);
             this.Controls.Add(this.LBL_ADD_COLUMN);
-            this.Name = "Column_edit_form";
+            this.Name = "ColumnEditForm";
             this.Text = "Edit";
             this.Load += new System.EventHandler(this.Form8_Load);
             this.ResumeLayout(false);

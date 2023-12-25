@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Registration
+﻿namespace Registration
 {
     public partial class Search_form : Form
     {
@@ -22,9 +12,9 @@ namespace Registration
         public int Index_finder_column(string tekst)
         {
            int result = 0;
-            for (int i = 0 ; i < User_input.Dvg.Columns.Count ; i++)
+            for (int i = 0 ; i < UserInput.DataGridView.Columns.Count ; i++)
             {
-                if (User_input.Dvg.Columns[i].HeaderText == tekst)
+                if (UserInput.DataGridView.Columns[i].HeaderText == tekst)
                 {
                     result = i;
                     break;
@@ -44,10 +34,10 @@ namespace Registration
            
             int index = Index_finder_column(TXT_BOX_COLUMN_NAME.Text);
            
-             while (i < User_input.Dvg.Rows.Count)
+             while (i < UserInput.DataGridView.Rows.Count)
             {
                 
-                string specimen = User_input.Dvg.Rows[i].Cells[index].Value.ToString();
+                string specimen = UserInput.DataGridView.Rows[i].Cells[index].Value.ToString();
 
                 
 

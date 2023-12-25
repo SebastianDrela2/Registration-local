@@ -1,5 +1,3 @@
-using System.Configuration;
-
 namespace Registration
 {
     internal static class Program
@@ -14,7 +12,7 @@ namespace Registration
             // see https://aka.ms/applicationconfiguration.
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Main_window());
+            Application.Run(new MainWindow());
         }
     }
 }
