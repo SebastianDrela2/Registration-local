@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_LastSelectedProfileId>C:\Users\Seba\source\repos\Registration\Registration\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Update="Main_window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Graph_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="StyleEdit_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Sort_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="User_input.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Data_Base_Entry.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Search_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Connection_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Search_result_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Test_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Column_edit_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>
