@@ -590,8 +590,6 @@ namespace Registration
                 @"Rows Can be deleted by pressing DELETE on keyboard and selecting given row File can be saved by pressing Ctrl + S");
         }
 
-       
-
         private void OnGraphToolClicked(object sender, EventArgs e)
         {
             var frm = new GraphForm(DATA_GRID);
