@@ -428,15 +428,13 @@ namespace Registration
                 Save();
             }
 
-            var openfiledialog = new OpenFileDialog();
+            var openFileDialog = new OpenFileDialog();
 
-            if (openfiledialog.ShowDialog() == DialogResult.OK)
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 SetConnectionToOffline();
-               
-                var setOfLists = new List<List<string>>();
-
-                var filePath = openfiledialog.FileName;
+                
+                var filePath = openFileDialog.FileName;
                 var fileExt = System.IO.Path.GetExtension(filePath);
 
                 var filePathNoExtenstion = System.IO.Path.GetFileNameWithoutExtension(filePath);
@@ -446,71 +444,71 @@ namespace Registration
                     File.ReadAllLines(Application.StartupPath + "/Columns/" + filePathNoExtenstion + "_columns_data.txt");
 
                 DATA_GRID.Columns.Clear();
-                foreach (string line in limes)
+                foreach (var line in limes)
                 {
                     DATA_GRID.Columns.Add(line + "_", line);
                 }
 
-                if (string.Compare(fileExt, ".txt", StringComparison.Ordinal) == 0)
-                {
-                    try
-                    {
-                        var listIndex = 0;
-                        var result = File.ReadAllLines(filePath);
-
-                        var firstRoll = false;
-                        var counter = 0;
-                        var finalCounter = 0;
-                        setOfLists.Add(new List<string>());
-                        foreach (var lines in result)
-                        {
-                            if (lines == "//")
-                            {
-                                listIndex++;
-                                setOfLists.Add(new List<string>());
-                                if (firstRoll == false)
-                                {
-                                    finalCounter = counter;
-                                    firstRoll = true;
-                                }
-                            }
-                            else if (lines != "//")
-                            {
-                                setOfLists[listIndex].Add(lines);
-                                counter++;
-                            }
-                        }
-
-                        DATA_GRID.Rows.Clear();
-
-                        var columnIndex = 0;
-                        for (var j = 0; j < finalCounter; j++)
-                        {
-                            DATA_GRID.Rows.Add();
-                        }
-
-                        foreach (var list in setOfLists)
-                        {
-                            for (var row_index = 0; row_index < list.Count; row_index++)
-                            {
-                                DATA_GRID.Rows[row_index].Cells[columnIndex].Value = list[row_index];
-                            }
-
-                            columnIndex++;
-                        }
-
-                        _userInput.IdCount = finalCounter;
-                        SetConnectionToOffline();
-                    }
-                    catch
-                    {
-                        //
-                    }
-                }
+                SetDataFromOpenedData(filePath, fileExt);
             }
         }
 
-        private void newToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void SetDataFromOpenedData(string filePath, string fileExt)
+        {
+            var setOfLists = new List<List<string>>();
+
+            if (string.Compare(fileExt, ".txt", StringComparison.Ordinal) == 0)
+            {
+                var listIndex = 0;
+                var result = File.ReadAllLines(filePath);
+
+                var firstRoll = false;
+                var counter = 0;
+                var finalCounter = 0;
+                setOfLists.Add(new List<string>());
+                foreach (var lines in result)
+                {
+                    if (lines == "//")
+                    {
+                        listIndex++;
+                        setOfLists.Add(new List<string>());
+                        if (firstRoll == false)
+                        {
+                            finalCounter = counter;
+                            firstRoll = true;
+                        }
+                    }
+                    else if (lines != "//")
+                    {
+                        setOfLists[listIndex].Add(lines);
+                        counter++;
+                    }
+                }
+
+                DATA_GRID.Rows.Clear();
+
+                var columnIndex = 0;
+                for (var j = 0; j < finalCounter; j++)
+                {
+                    DATA_GRID.Rows.Add();
+                }
+
+                foreach (var list in setOfLists)
+                {
+                    for (var row_index = 0; row_index < list.Count; row_index++)
+                    {
+                        DATA_GRID.Rows[row_index].Cells[columnIndex].Value = list[row_index];
+                    }
+
+                    columnIndex++;
+                }
+
+                _userInput.IdCount = finalCounter;
+                SetConnectionToOffline();
+            }
+        }
+
+        private void OnNewClicked(object sender, EventArgs e)
         {
             SetConnectionToOffline();
             var databaseEntry = new DatabaseEntry(this);
@@ -545,7 +543,7 @@ namespace Registration
 
                         }
 
-                        if(lastRun == false)
+                        if (lastRun == false)
                         {
                             writer.WriteLine("//");
                         }

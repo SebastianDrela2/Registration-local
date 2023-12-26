@@ -199,7 +199,7 @@
             this.newToolStripMenuItem1.Name = "newToolStripMenuItem1";
             this.newToolStripMenuItem1.Size = new System.Drawing.Size(109, 22);
             this.newToolStripMenuItem1.Text = "New";
-            this.newToolStripMenuItem1.Click += new System.EventHandler(this.newToolStripMenuItem1_Click);
+            this.newToolStripMenuItem1.Click += new System.EventHandler(this.OnNewClicked);
             // 
             // addToolStripMenuItem1
             // 
@@ -274,7 +274,7 @@
             this.columnsToolStripMenuItem.Name = "columnsToolStripMenuItem";
             this.columnsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.columnsToolStripMenuItem.Text = "Columns";
-            this.columnsToolStripMenuItem.Click += new System.EventHandler(this.columnsToolStripMenuItem_Click);
+            this.columnsToolStripMenuItem.Click += new System.EventHandler(this.OnColumnsClicked);
             // 
             // dataStyleToolStripMenuItem
             // 
@@ -288,7 +288,7 @@
             this.sortToolStripMenuItem.Name = "sortToolStripMenuItem";
             this.sortToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.sortToolStripMenuItem.Text = "Sort";
-            this.sortToolStripMenuItem.Click += new System.EventHandler(this.sortToolStripMenuItem_Click_2);
+            this.sortToolStripMenuItem.Click += new System.EventHandler(this.OnSortClicked);
             // 
             // toolsToolStripMenuItem
             // 
