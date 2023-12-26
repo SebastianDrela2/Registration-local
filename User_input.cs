@@ -1,12 +1,11 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
-using System.Windows.Forms;
 
 namespace Registration
 {
     public partial class UserInput : Form
     {
-        public static List<string> entire_data = new List<string>();
+        public static List<string> EntireData = new List<string>();
 
         private readonly MainWindow _mainWindow;
         private readonly ConnectionForm _connectionForm;

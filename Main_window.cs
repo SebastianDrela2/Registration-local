@@ -6,7 +6,7 @@ namespace Registration
 {
     public partial class MainWindow : Form
     {
-        public Label Label2 { get; set; }
+        public Label OnlineLabelStatus { get; set; }
         public Button SqlInfoForForm { get; set; }
         public bool RuntimeChecker { get; set; }
         public int ResultColumn  {get; set;}
@@ -106,7 +106,7 @@ namespace Registration
             _labelConnectionStatus.Text = @"O F F L I N E";
             _labelConnectionStatus.ForeColor = Color.Red;
             ConnectionForm.SqlChecker = false;
-            Label2 = _labelConnectionStatus;
+            OnlineLabelStatus = _labelConnectionStatus;
             
             SqlInfoForForm = _buttonSqlInfo;
 
@@ -119,16 +119,33 @@ namespace Registration
                 DATA_GRID.Columns.Clear();
                 
                 string[] limes = File.ReadAllLines(Application.StartupPath + "/Columns/entire_data_columns_data.txt");
-                 foreach (var lime in limes)
+                foreach (var lime in limes)
                 {
                     DATA_GRID.Columns.Add(lime + "_" , lime);
                 }
                 
             }
+
+            PopulateDataGridFromEntireData();
             
+            _originalFormSize = new Rectangle(this.Location.X, this.Location.Y, this.Size.Width, this.Size.Height);
+            _buttonOriginalRectangle = new Rectangle(BTN_ADD.Location.X, BTN_ADD.Location.Y, BTN_ADD.Width, BTN_ADD.Height);
+            
+            _dataGridOriginalRectangle = new Rectangle(DATA_GRID.Location.X, DATA_GRID.Location.Y, DATA_GRID.Width, DATA_GRID.Height);
+            _titleImageRectangle = new Rectangle(IMG_BOX_TITLE.Location.X, IMG_BOX_TITLE.Location.Y, IMG_BOX_TITLE.Width, IMG_BOX_TITLE.Height);
+            _githubTextOriginalRectangle = new Rectangle(LBL_GiTHUB.Location.X, LBL_GiTHUB.Location.Y, LBL_GiTHUB.Width, LBL_GiTHUB.Height);
+            _linkGitHubTextOriginalRectangle = new Rectangle(LINK_LBL_GITHUB.Location.X, LINK_LBL_GITHUB.Location.Y, LINK_LBL_GITHUB.Width, LINK_LBL_GITHUB.Height);
+           
+            _sqlInfoRectangle = new Rectangle(_buttonSqlInfo.Location.X, _buttonSqlInfo.Location.Y, _buttonSqlInfo.Width, _buttonSqlInfo.Height);
+            _connectionStringRectangle = new Rectangle(LBL_CONNECTION.Location.X, LBL_CONNECTION.Location.Y, LBL_CONNECTION.Width, LBL_CONNECTION.Height);
+            _connectionStatusRectangle = new Rectangle(_labelConnectionStatus.Location.X, _labelConnectionStatus.Location.Y, _labelConnectionStatus.Width, _labelConnectionStatus.Height);
+        }
+
+        private void PopulateDataGridFromEntireData()
+        {
             if (File.Exists(Application.StartupPath + "/Data/entire_data.txt"))
             {
-                string[] allLines = File.ReadAllLines(Application.StartupPath+ "/Data/entire_data.txt");
+                string[] allLines = File.ReadAllLines(Application.StartupPath + "/Data/entire_data.txt");
                 var counterRow = 0;
                 foreach (var line in allLines)
                 {
@@ -146,37 +163,26 @@ namespace Registration
                 {
                     DATA_GRID.Rows.Add();
                 }
-                
-                var s = 0;
-                var l = 0;
+
+                var column = 0;
+                var row = 0;
 
                 foreach (var line in allLines)
                 {
                     if (line != "//")
                     {
-                        DATA_GRID.Rows[l].Cells[s].Value = line;
-                        
-                        l++;
+                        DATA_GRID.Rows[row].Cells[column].Value = line;
+
+                        row++;
                     }
 
                     if (line == "//")
                     {
-                        s++;
-                        l = 0;
-                    }    
+                        column++;
+                        row = 0;
+                    }
                 }
             }
-            _originalFormSize = new Rectangle(this.Location.X, this.Location.Y, this.Size.Width, this.Size.Height);
-            _buttonOriginalRectangle = new Rectangle(BTN_ADD.Location.X, BTN_ADD.Location.Y, BTN_ADD.Width, BTN_ADD.Height);
-            
-            _dataGridOriginalRectangle = new Rectangle(DATA_GRID.Location.X, DATA_GRID.Location.Y, DATA_GRID.Width, DATA_GRID.Height);
-            _titleImageRectangle = new Rectangle(IMG_BOX_TITLE.Location.X, IMG_BOX_TITLE.Location.Y, IMG_BOX_TITLE.Width, IMG_BOX_TITLE.Height);
-            _githubTextOriginalRectangle = new Rectangle(LBL_GiTHUB.Location.X, LBL_GiTHUB.Location.Y, LBL_GiTHUB.Width, LBL_GiTHUB.Height);
-            _linkGitHubTextOriginalRectangle = new Rectangle(LINK_LBL_GITHUB.Location.X, LINK_LBL_GITHUB.Location.Y, LINK_LBL_GITHUB.Width, LINK_LBL_GITHUB.Height);
-           
-            _sqlInfoRectangle = new Rectangle(_buttonSqlInfo.Location.X, _buttonSqlInfo.Location.Y, _buttonSqlInfo.Width, _buttonSqlInfo.Height);
-            _connectionStringRectangle = new Rectangle(LBL_CONNECTION.Location.X, LBL_CONNECTION.Location.Y, LBL_CONNECTION.Width, LBL_CONNECTION.Height);
-            _connectionStatusRectangle = new Rectangle(_labelConnectionStatus.Location.X, _labelConnectionStatus.Location.Y, _labelConnectionStatus.Width, _labelConnectionStatus.Height);
         }
 
         private void ResizeControl(Rectangle r, Control c)
@@ -279,21 +285,21 @@ namespace Registration
         
         private void Save()
         {
-            UserInput.entire_data.Clear();
+            UserInput.EntireData.Clear();
             var counter = DATA_GRID.Columns.Count;
 
-            for (int i = 0; i < counter; i++)
+            for (var i = 0; i < counter; i++)
             {
-                for ( int j = 0; j < DATA_GRID.Rows.Count; j++)
+                for (var j = 0; j < DATA_GRID.Rows.Count; j++)
                 {
-                    UserInput.entire_data.Add(DATA_GRID.Rows[j].Cells[i].Value.ToString());
+                    UserInput.EntireData.Add(DATA_GRID.Rows[j].Cells[i].Value.ToString());
                 }
                 
-                UserInput.entire_data.Add("//");
+                UserInput.EntireData.Add("//");
             }
 
             var columns = new List<string>();
-            for (int k = 0; k < DATA_GRID.Columns.Count; k++)
+            for (var k = 0; k < DATA_GRID.Columns.Count; k++)
             {
                 columns.Add(DATA_GRID.Columns[k].HeaderText);
             }
@@ -302,12 +308,12 @@ namespace Registration
             {
                 Console.WriteLine(Path);
                 File.Create(Path).Close();
-                File.WriteAllLines(Path, UserInput.entire_data);
+                File.WriteAllLines(Path, UserInput.EntireData);
                 File.WriteAllLines(Application.StartupPath + "/Columns/" + DatabaseEntry.path_no_txt + "_columns_data.txt", columns);
             }
             
             File.Create(Application.StartupPath + "/Data/entire_data.txt").Close();
-            File.WriteAllLines(Application.StartupPath + "/Data/entire_data.txt", UserInput.entire_data);
+            File.WriteAllLines(Application.StartupPath + "/Data/entire_data.txt", UserInput.EntireData);
             File.Create(Application.StartupPath + "/Columns/entire_data_columns_data.txt").Close();
             File.WriteAllLines(Application.StartupPath + "/Columns/entire_data_columns_data.txt" , columns );
         }
@@ -401,7 +407,7 @@ namespace Registration
 
         private void OnOpenClicked(object sender, EventArgs e)
         {
-            if (Label2.ForeColor != Color.Green)
+            if (OnlineLabelStatus.ForeColor != Color.Green)
             {
                 Save();
             }
@@ -434,8 +440,7 @@ namespace Registration
                     try
                     {
                         var listIndex = 0;
-
-                        string[] result = File.ReadAllLines(filePath);
+                        var result = File.ReadAllLines(filePath);
 
                         var firstRoll = false;
                         var counter = 0;

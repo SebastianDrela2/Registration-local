@@ -3,7 +3,7 @@
     public partial class DatabaseEntry : Form
     {
         public static string path_no_txt { get; set;}
-        private MainWindow _mainWindow;
+        private readonly MainWindow _mainWindow;
 
         public DatabaseEntry(MainWindow mainWindow)
         {

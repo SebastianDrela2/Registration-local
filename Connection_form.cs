@@ -8,13 +8,13 @@ namespace Registration
         public static bool SqlChecker { get; set; }
         public string ConnectionString { get; set; }
 
-        public static SqlConnection con { get; set; }
+        public static SqlConnection? CurrentConnection { get; set; }
         public static string DataTable { get; set;}
         public static List<int> IdList = new List<int>();
         public static List<List<string>> ListaString = new List<List<string>>();
 
         private static DataGridView _dataGridView;
-        private MainWindow _mainWindow;
+        private readonly MainWindow _mainWindow;
         public ConnectionForm(MainWindow mainWindow)
         {
             _mainWindow = mainWindow;
@@ -26,10 +26,10 @@ namespace Registration
         public void RemoveColumns(int field_count)
         {
             var count = _dataGridView.Columns.Count;
-            var operation_result = count - field_count;
+            var operationResult = count - field_count;
             count -= 1;
 
-            for (var i = 0; i < operation_result; i++)
+            for (var i = 0; i < operationResult; i++)
             {
                 _dataGridView.Columns.RemoveAt(count - i);
             }
@@ -38,14 +38,14 @@ namespace Registration
 
         public void DisplayData()
         {
-            using SqlCommand cmd = new SqlCommand
+            using var cmd = new SqlCommand
             {
-                Connection = con,
+                Connection = CurrentConnection,
                 CommandType = CommandType.Text,
                 CommandText = "SELECT * FROM " + DataTable
             };
 
-            con.Open();
+            CurrentConnection.Open();
             using SqlDataReader sqlDataReader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
             RemoveColumns(sqlDataReader.FieldCount);
             while (sqlDataReader.Read())
@@ -60,7 +60,7 @@ namespace Registration
                 _dataGridView.ClearSelection();
             }
             _dataGridView.Rows.Clear();
-            con.Close();
+            CurrentConnection.Close();
             for (var i = 0; i < IdList.Count; i++)
             {
                 _dataGridView.Rows.Add();
@@ -121,8 +121,8 @@ namespace Registration
             }
             DataTable =  LIST_BOX_DT.SelectedItem.ToString();
             _mainWindow.RuntimeChecker = true;
-            _mainWindow.Label2.Text = "O N L I N E";
-            _mainWindow.Label2.ForeColor = Color.Green;
+            _mainWindow.OnlineLabelStatus.Text = "O N L I N E";
+            _mainWindow.OnlineLabelStatus.ForeColor = Color.Green;
 
             _mainWindow.Enabled = true;
             _dataGridView.ClearSelection();
@@ -152,21 +152,21 @@ namespace Registration
                 ListaString.Add(new List<string>());
             }
 
-            con = new SqlConnection(ConnectionString);
-            con.Open();
+            CurrentConnection = new SqlConnection(ConnectionString);
+            CurrentConnection.Open();
 
             using var cmd2 = new SqlCommand
             {
-                Connection = con,
+                Connection = CurrentConnection,
                 CommandType = CommandType.Text,
                 CommandText = "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" + DataTable + "'"
             };
             _dataGridView.ClearSelection();
             var sqldatareader2 = cmd2.ExecuteReader();
-            var list_results = new List<string>();
+            var listResults = new List<string>();
             while (sqldatareader2.Read())
             {
-                list_results.Add(sqldatareader2[0].ToString());
+                listResults.Add(sqldatareader2[0].ToString());
                 _dataGridView.ClearSelection();
             }
 
@@ -179,11 +179,11 @@ namespace Registration
 
             for (var k = 1; k < _mainWindow.ResultColumn; k++)
             {
-                _dataGridView.Columns.Add(list_results[k] + "_" , list_results[k]);
+                _dataGridView.Columns.Add(listResults[k] + "_" , listResults[k]);
                 _dataGridView.Columns[k].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
 
-            con.Close();
+            CurrentConnection.Close();
 
             _dataGridView.ClearSelection();
             DisplayData();

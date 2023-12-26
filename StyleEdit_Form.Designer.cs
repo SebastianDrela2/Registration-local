@@ -28,23 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.LIST_BOX_FONT = new System.Windows.Forms.ListBox();
+            this._listBoxFont = new System.Windows.Forms.ListBox();
             this.LBL_FONT_SIZE = new System.Windows.Forms.Label();
-            this.TXT_BOX_SIZE = new System.Windows.Forms.TextBox();
+            this._txtboxSize = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.TXT_BOX_CELL_COLOUR = new System.Windows.Forms.TextBox();
-            this.TXT_BOX_BACKGROUND = new System.Windows.Forms.TextBox();
+            this._txtBoxCellColour = new System.Windows.Forms.TextBox();
+            this._txtBoxBackGround = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.BTN_OK = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // LIST_BOX_FONT
+            // _listBoxFont
             // 
-            this.LIST_BOX_FONT.FormattingEnabled = true;
-            this.LIST_BOX_FONT.Location = new System.Drawing.Point(1, 3);
-            this.LIST_BOX_FONT.Name = "LIST_BOX_FONT";
-            this.LIST_BOX_FONT.Size = new System.Drawing.Size(129, 173);
-            this.LIST_BOX_FONT.TabIndex = 0;
+            this._listBoxFont.FormattingEnabled = true;
+            this._listBoxFont.Location = new System.Drawing.Point(1, 3);
+            this._listBoxFont.Name = "_listBoxFont";
+            this._listBoxFont.Size = new System.Drawing.Size(129, 173);
+            this._listBoxFont.TabIndex = 0;
             // 
             // LBL_FONT_SIZE
             // 
@@ -55,12 +55,12 @@
             this.LBL_FONT_SIZE.TabIndex = 2;
             this.LBL_FONT_SIZE.Text = "Size:";
             // 
-            // TXT_BOX_SIZE
+            // _txtboxSize
             // 
-            this.TXT_BOX_SIZE.Location = new System.Drawing.Point(163, 6);
-            this.TXT_BOX_SIZE.Name = "TXT_BOX_SIZE";
-            this.TXT_BOX_SIZE.Size = new System.Drawing.Size(35, 20);
-            this.TXT_BOX_SIZE.TabIndex = 3;
+            this._txtboxSize.Location = new System.Drawing.Point(163, 6);
+            this._txtboxSize.Name = "_txtboxSize";
+            this._txtboxSize.Size = new System.Drawing.Size(35, 20);
+            this._txtboxSize.TabIndex = 3;
             // 
             // label1
             // 
@@ -71,21 +71,21 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "BackGround Color:";
             // 
-            // TXT_BOX_CELL_COLOUR
+            // _txtBoxCellColour
             // 
-            this.TXT_BOX_CELL_COLOUR.Location = new System.Drawing.Point(308, 6);
-            this.TXT_BOX_CELL_COLOUR.Name = "TXT_BOX_CELL_COLOUR";
-            this.TXT_BOX_CELL_COLOUR.Size = new System.Drawing.Size(35, 20);
-            this.TXT_BOX_CELL_COLOUR.TabIndex = 5;
-            this.TXT_BOX_CELL_COLOUR.Click += new System.EventHandler(this.TXT_BOX_CELL_COLOUR_Click);
+            this._txtBoxCellColour.Location = new System.Drawing.Point(308, 6);
+            this._txtBoxCellColour.Name = "_txtBoxCellColour";
+            this._txtBoxCellColour.Size = new System.Drawing.Size(35, 20);
+            this._txtBoxCellColour.TabIndex = 5;
+            this._txtBoxCellColour.Click += new System.EventHandler(this.TXT_BOX_CELL_COLOUR_Click);
             // 
-            // TXT_BOX_BACKGROUND
+            // _txtBoxBackGround
             // 
-            this.TXT_BOX_BACKGROUND.Location = new System.Drawing.Point(419, 6);
-            this.TXT_BOX_BACKGROUND.Name = "TXT_BOX_BACKGROUND";
-            this.TXT_BOX_BACKGROUND.Size = new System.Drawing.Size(35, 20);
-            this.TXT_BOX_BACKGROUND.TabIndex = 6;
-            this.TXT_BOX_BACKGROUND.Click += new System.EventHandler(this.TXT_BOX_BACKGROUND_Click);
+            this._txtBoxBackGround.Location = new System.Drawing.Point(419, 6);
+            this._txtBoxBackGround.Name = "_txtBoxBackGround";
+            this._txtBoxBackGround.Size = new System.Drawing.Size(35, 20);
+            this._txtBoxBackGround.TabIndex = 6;
+            this._txtBoxBackGround.Click += new System.EventHandler(this.TXT_BOX_BACKGROUND_Click);
             // 
             // label2
             // 
@@ -113,12 +113,12 @@
             this.ClientSize = new System.Drawing.Size(674, 179);
             this.Controls.Add(this.BTN_OK);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.TXT_BOX_BACKGROUND);
-            this.Controls.Add(this.TXT_BOX_CELL_COLOUR);
+            this.Controls.Add(this._txtBoxBackGround);
+            this.Controls.Add(this._txtBoxCellColour);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.TXT_BOX_SIZE);
+            this.Controls.Add(this._txtboxSize);
             this.Controls.Add(this.LBL_FONT_SIZE);
-            this.Controls.Add(this.LIST_BOX_FONT);
+            this.Controls.Add(this._listBoxFont);
             this.Name = "StyleEditForm";
             this.Text = "DataStyle";
             this.Load += new System.EventHandler(this.OnLoad);
@@ -129,12 +129,12 @@
 
         #endregion
 
-        private ListBox LIST_BOX_FONT;
+        private ListBox _listBoxFont;
         private Label LBL_FONT_SIZE;
-        private TextBox TXT_BOX_SIZE;
+        private TextBox _txtboxSize;
         private Label label1;
-        private TextBox TXT_BOX_CELL_COLOUR;
-        private TextBox TXT_BOX_BACKGROUND;
+        private TextBox _txtBoxCellColour;
+        private TextBox _txtBoxBackGround;
         private Label label2;
         private Button BTN_OK;
     }
