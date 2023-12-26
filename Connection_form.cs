@@ -86,8 +86,8 @@ namespace Registration
 
         public void OnOkClicked(object sender, EventArgs e)
         {
-            BTN_PROCEED.Enabled = true;
-            ConnectionString = TXT_BOT_CONNECTION.Text;
+            _buttonProceed.Enabled = true;
+            ConnectionString = _textBoxConnection.Text;
             var connectionForwardData = new SqlConnection(ConnectionString);
             connectionForwardData.Open();
 

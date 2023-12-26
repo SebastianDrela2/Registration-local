@@ -49,7 +49,7 @@ namespace Registration
             ConnectionForm.SqlChecker = false;
             if (RuntimeChecker)
             {
-                ConnectionForm.con.Close();
+                ConnectionForm.CurrentConnection.Close();
             }
 
             RuntimeChecker = false;
@@ -216,16 +216,16 @@ namespace Registration
         {
             if (_labelConnectionStatus.ForeColor != Color.Red)
             {
-                ConnectionForm.con.Open();
+                ConnectionForm.CurrentConnection.Open();
                 var command = new SqlCommand()
                 {
-                    Connection = ConnectionForm.con,
+                    Connection = ConnectionForm.CurrentConnection,
                     CommandType = CommandType.Text,
                     CommandText = "DELETE FROM " + ConnectionForm.DataTable + " WHERE ID = " + DATA_GRID.CurrentCell.Value + ""
                 };
 
                 command.ExecuteNonQuery();
-                ConnectionForm.con.Close();
+                ConnectionForm.CurrentConnection.Close();
                 DATA_GRID.Rows.RemoveAt(DATA_GRID.SelectedRows[0].Index);
             }
             else

@@ -60,7 +60,7 @@ namespace Registration
         {
             _mainWindow.DATA_GRID.Rows.Add();
            
-            if (_mainWindow.Label2.ForeColor == Color.Green)
+            if (_mainWindow.OnlineLabelStatus.ForeColor == Color.Green)
             {
                 var result = "INSERT INTO UserData VALUES (";
                 for (var s = 0; s < _mainWindow.ResultColumn - 1; s++)
@@ -96,7 +96,7 @@ namespace Registration
 
                 TxtBoxList.Clear();
             }
-            else if (_mainWindow.Label2.ForeColor != Color.Green)
+            else if (_mainWindow.OnlineLabelStatus.ForeColor != Color.Green)
             {
                 var row_counter = _mainWindow.DATA_GRID.Rows.Count;
                 var column_counter = _mainWindow.DATA_GRID.Columns.Count;
@@ -136,7 +136,7 @@ namespace Registration
 
         private void OnLoad(object sender, EventArgs e)
         {
-            if (_mainWindow.Label2.ForeColor == Color.Green)
+            if (_mainWindow.OnlineLabelStatus.ForeColor == Color.Green)
             {
                 var counter = 1;
                 for (var j = _mainWindow.ResultColumn; j < _mainWindow.DATA_GRID.Columns.Count; j++)
