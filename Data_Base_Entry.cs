@@ -17,7 +17,7 @@
             var data_base_path = Application.StartupPath + "/Data/" + path_no_txt + ".txt";
 
             File.Create(data_base_path).Close();
-            _mainWindow.DATA_GRID.Rows.Clear();
+            _mainWindow.DataGrid.Rows.Clear();
 
             _mainWindow.Path = data_base_path;
             Close();

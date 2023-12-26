@@ -9,7 +9,7 @@ namespace Registration
 
         public StyleEditForm(MainWindow mainWindow)
         {
-            _dataGridView = mainWindow.DATA_GRID;
+            _dataGridView = mainWindow.DataGrid;
             _mainWindow = mainWindow;
 
             InitializeComponent();

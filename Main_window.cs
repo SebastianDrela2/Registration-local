@@ -59,15 +59,15 @@ namespace Registration
             if (File.Exists(fontPath))
             {
                 var allLines = File.ReadAllLines(fontPath);
-                DATA_GRID.Font = new Font(allLines[0], float.Parse(allLines[1]));
+                DataGrid.Font = new Font(allLines[0], float.Parse(allLines[1]));
 
                 var foreGroundComponents = allLines[2].Split(',');
                 var fcColor = GetColorFromComponents(foreGroundComponents);
-                DATA_GRID.ForeColor = fcColor;
+                DataGrid.ForeColor = fcColor;
 
                 var backGroundComponents = allLines[3].Split(',');
                 var fbColor = GetColorFromComponents(backGroundComponents);
-                DATA_GRID.BackgroundColor = fbColor;
+                DataGrid.BackgroundColor = fbColor;
             }
             else
             {
@@ -116,12 +116,12 @@ namespace Registration
             }
             if (File.Exists(Application.StartupPath + "/Columns/entire_data_columns_data.txt")) 
             {
-                DATA_GRID.Columns.Clear();
+                DataGrid.Columns.Clear();
                 
                 string[] limes = File.ReadAllLines(Application.StartupPath + "/Columns/entire_data_columns_data.txt");
                 foreach (var lime in limes)
                 {
-                    DATA_GRID.Columns.Add(lime + "_" , lime);
+                    DataGrid.Columns.Add(lime + "_" , lime);
                 }
                 
             }
@@ -133,12 +133,12 @@ namespace Registration
         private void SetRectanglesProperties()
         {
             _originalFormSize = new Rectangle(Location.X, Location.Y, Size.Width, Size.Height);
-            _buttonOriginalRectangle = new Rectangle(BTN_ADD.Location.X, BTN_ADD.Location.Y, BTN_ADD.Width, BTN_ADD.Height);
+            _buttonOriginalRectangle = new Rectangle(_buttonAdd.Location.X, _buttonAdd.Location.Y, _buttonAdd.Width, _buttonAdd.Height);
 
-            _dataGridOriginalRectangle = new Rectangle(DATA_GRID.Location.X, DATA_GRID.Location.Y, DATA_GRID.Width, DATA_GRID.Height);
+            _dataGridOriginalRectangle = new Rectangle(DataGrid.Location.X, DataGrid.Location.Y, DataGrid.Width, DataGrid.Height);
             _titleImageRectangle = new Rectangle(IMG_BOX_TITLE.Location.X, IMG_BOX_TITLE.Location.Y, IMG_BOX_TITLE.Width, IMG_BOX_TITLE.Height);
-            _githubTextOriginalRectangle = new Rectangle(LBL_GiTHUB.Location.X, LBL_GiTHUB.Location.Y, LBL_GiTHUB.Width, LBL_GiTHUB.Height);
-            _linkGitHubTextOriginalRectangle = new Rectangle(LINK_LBL_GITHUB.Location.X, LINK_LBL_GITHUB.Location.Y, LINK_LBL_GITHUB.Width, LINK_LBL_GITHUB.Height);
+            _githubTextOriginalRectangle = new Rectangle(_labelGithubPrefix.Location.X, _labelGithubPrefix.Location.Y, _labelGithubPrefix.Width, _labelGithubPrefix.Height);
+            _linkGitHubTextOriginalRectangle = new Rectangle(_labelGithubLink.Location.X, _labelGithubLink.Location.Y, _labelGithubLink.Width, _labelGithubLink.Height);
 
             _sqlInfoRectangle = new Rectangle(_buttonSqlInfo.Location.X, _buttonSqlInfo.Location.Y, _buttonSqlInfo.Width, _buttonSqlInfo.Height);
             _connectionStringRectangle = new Rectangle(LBL_CONNECTION.Location.X, LBL_CONNECTION.Location.Y, LBL_CONNECTION.Width, LBL_CONNECTION.Height);
@@ -165,7 +165,7 @@ namespace Registration
 
                 for (var i = 0; i < counterRow; i++)
                 {
-                    DATA_GRID.Rows.Add();
+                    DataGrid.Rows.Add();
                 }
 
                 var column = 0;
@@ -175,7 +175,7 @@ namespace Registration
                 {
                     if (line != "//")
                     {
-                        DATA_GRID.Rows[row].Cells[column].Value = line;
+                        DataGrid.Rows[row].Cells[column].Value = line;
 
                         row++;
                     }
@@ -206,11 +206,11 @@ namespace Registration
 
         private void ResizeControlChildren()
         {
-            ResizeControl(_buttonOriginalRectangle, BTN_ADD);
-            ResizeControl(_dataGridOriginalRectangle, DATA_GRID);
+            ResizeControl(_buttonOriginalRectangle, _buttonAdd);
+            ResizeControl(_dataGridOriginalRectangle, DataGrid);
             ResizeControl(_titleImageRectangle, IMG_BOX_TITLE);
-            ResizeControl(_githubTextOriginalRectangle, LBL_GiTHUB);
-            ResizeControl(_linkGitHubTextOriginalRectangle, LINK_LBL_GITHUB);
+            ResizeControl(_githubTextOriginalRectangle, _labelGithubPrefix);
+            ResizeControl(_linkGitHubTextOriginalRectangle, _labelGithubLink);
             ResizeControl (_sqlInfoRectangle, _buttonSqlInfo);
             ResizeControl(_connectionStatusRectangle, _labelConnectionStatus);
             ResizeControl(_connectionStringRectangle, LBL_CONNECTION);
@@ -225,45 +225,45 @@ namespace Registration
                 {
                     Connection = ConnectionForm.CurrentConnection,
                     CommandType = CommandType.Text,
-                    CommandText = "DELETE FROM " + ConnectionForm.DataTable + " WHERE ID = " + DATA_GRID.CurrentCell.Value + ""
+                    CommandText = "DELETE FROM " + ConnectionForm.DataTable + " WHERE ID = " + DataGrid.CurrentCell.Value + ""
                 };
 
                 command.ExecuteNonQuery();
                 ConnectionForm.CurrentConnection.Close();
-                DATA_GRID.Rows.RemoveAt(DATA_GRID.SelectedRows[0].Index);
+                DataGrid.Rows.RemoveAt(DataGrid.SelectedRows[0].Index);
             }
             else
             {
-                if (DATA_GRID.Rows.Count == 0)
+                if (DataGrid.Rows.Count == 0)
                 {
                     _userInput.IdCount = 0;
                 }
-                else if (DATA_GRID.Rows.Count == 1)
+                else if (DataGrid.Rows.Count == 1)
                 {
-                    DATA_GRID.Rows.Clear();
+                    DataGrid.Rows.Clear();
                     _userInput.IdCount = 0;
                 }
                 else
                 {
                     var counter = 0;
-                    var selectedRow = DATA_GRID.CurrentCell.RowIndex;
+                    var selectedRow = DataGrid.CurrentCell.RowIndex;
                     selectedRow++;
 
-                    var rowCount = DATA_GRID.Rows.Count;
+                    var rowCount = DataGrid.Rows.Count;
                     var operationValue = rowCount - selectedRow;
 
                     while (counter < operationValue)
                     {
-                        DATA_GRID.Rows[selectedRow].Cells[0].Value = int.Parse(DATA_GRID.Rows[selectedRow].Cells[0].Value.ToString()) - 1;
+                        DataGrid.Rows[selectedRow].Cells[0].Value = int.Parse(DataGrid.Rows[selectedRow].Cells[0].Value.ToString()) - 1;
 
                         selectedRow++;
                         counter++;
                     }
 
-                    DATA_GRID.Rows.RemoveAt(this.DATA_GRID.SelectedRows[0].Index);
-                    var lastindex = DATA_GRID.Rows.Count - 1;
+                    DataGrid.Rows.RemoveAt(this.DataGrid.SelectedRows[0].Index);
+                    var lastindex = DataGrid.Rows.Count - 1;
 
-                    _userInput.IdCount = int.Parse(DATA_GRID.Rows[lastindex].Cells[0].Value.ToString());
+                    _userInput.IdCount = int.Parse(DataGrid.Rows[lastindex].Cells[0].Value.ToString());
                 }
             }
         }
@@ -273,7 +273,7 @@ namespace Registration
             _userInput = new UserInput(this, _connectionForm);
             _userInput.Show();
             
-            DATA_GRID.AllowUserToAddRows = false;
+            DataGrid.AllowUserToAddRows = false;
         }
 
         private void OnGithubLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -290,13 +290,13 @@ namespace Registration
         private void Save()
         {
             UserInput.EntireData.Clear();
-            var counter = DATA_GRID.Columns.Count;
+            var counter = DataGrid.Columns.Count;
 
             for (var i = 0; i < counter; i++)
             {
-                for (var j = 0; j < DATA_GRID.Rows.Count; j++)
+                for (var j = 0; j < DataGrid.Rows.Count; j++)
                 {
-                    UserInput.EntireData.Add(DATA_GRID.Rows[j].Cells[i].Value.ToString());
+                    UserInput.EntireData.Add(DataGrid.Rows[j].Cells[i].Value.ToString());
                 }
                 
                 UserInput.EntireData.Add("//");
@@ -304,9 +304,9 @@ namespace Registration
 
             var columns = new List<string>();
 
-            for (var k = 0; k < DATA_GRID.Columns.Count; k++)
+            for (var k = 0; k < DataGrid.Columns.Count; k++)
             {
-                columns.Add(DATA_GRID.Columns[k].HeaderText);
+                columns.Add(DataGrid.Columns[k].HeaderText);
             }
             CellEdited = false;
 
@@ -354,9 +354,9 @@ namespace Registration
             }
 
             var columns = new List<string>();
-            for (var i = 0; i < DATA_GRID.Columns.Count; i++)
+            for (var i = 0; i < DataGrid.Columns.Count; i++)
             {
-                columns.Add(DATA_GRID.Columns[i].HeaderText);
+                columns.Add(DataGrid.Columns[i].HeaderText);
             }
         }
         
@@ -379,7 +379,7 @@ namespace Registration
         
         private void OnDataGridCellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (DATA_GRID.SelectedCells.Count >= 1 )
+            if (DataGrid.SelectedCells.Count >= 1 )
             {
                 SetDataGridRunTimeData();
                 if (FirstPass == false)
@@ -406,13 +406,13 @@ namespace Registration
 
         private void SetDataGridRunTimeData()
         {
-            SelectedRowIndex = DATA_GRID.SelectedCells[0].RowIndex;
-            SelectedColumnIndex = DATA_GRID.SelectedCells[0].ColumnIndex;
-            RowName = DATA_GRID.Rows[SelectedRowIndex].ToString();
-            ColumnName = DATA_GRID.Columns[SelectedColumnIndex].HeaderText;
-            var selectedRow = DATA_GRID.Rows[SelectedRowIndex];
+            SelectedRowIndex = DataGrid.SelectedCells[0].RowIndex;
+            SelectedColumnIndex = DataGrid.SelectedCells[0].ColumnIndex;
+            RowName = DataGrid.Rows[SelectedRowIndex].ToString();
+            ColumnName = DataGrid.Columns[SelectedColumnIndex].HeaderText;
+            var selectedRow = DataGrid.Rows[SelectedRowIndex];
             CurrentCellValue = selectedRow.Cells[SelectedColumnIndex].Value.ToString();
-            IdName = DATA_GRID.Rows[SelectedRowIndex].Cells[0].Value.ToString();
+            IdName = DataGrid.Rows[SelectedRowIndex].Cells[0].Value.ToString();
         }
 
         private void OnCellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -442,10 +442,10 @@ namespace Registration
                 var limes =
                     File.ReadAllLines(Application.StartupPath + "/Columns/" + filePathNoExtenstion + "_columns_data.txt");
 
-                DATA_GRID.Columns.Clear();
+                DataGrid.Columns.Clear();
                 foreach (var line in limes)
                 {
-                    DATA_GRID.Columns.Add(line + "_", line);
+                    DataGrid.Columns.Add(line + "_", line);
                 }
 
                 SetDataFromOpenedData(filePath, fileExt);
@@ -484,19 +484,19 @@ namespace Registration
                     }
                 }
 
-                DATA_GRID.Rows.Clear();
+                DataGrid.Rows.Clear();
 
                 var columnIndex = 0;
                 for (var j = 0; j < finalCounter; j++)
                 {
-                    DATA_GRID.Rows.Add();
+                    DataGrid.Rows.Add();
                 }
 
                 foreach (var list in setOfLists)
                 {
                     for (var row_index = 0; row_index < list.Count; row_index++)
                     {
-                        DATA_GRID.Rows[row_index].Cells[columnIndex].Value = list[row_index];
+                        DataGrid.Rows[row_index].Cells[columnIndex].Value = list[row_index];
                     }
 
                     columnIndex++;
@@ -528,14 +528,14 @@ namespace Registration
                     var writer = new StreamWriter(stream);
 
                     var lastRun = false;
-                    for (var i = 0; i < DATA_GRID.Columns.Count; i++)
+                    for (var i = 0; i < DataGrid.Columns.Count; i++)
                     {
-                        for (var j = 0; j < DATA_GRID.Rows.Count; j++)
+                        for (var j = 0; j < DataGrid.Rows.Count; j++)
                         {
-                            var data = (DATA_GRID.Rows[j].Cells[i].Value.ToString());
+                            var data = (DataGrid.Rows[j].Cells[i].Value.ToString());
                             writer.WriteLine(data);
 
-                            if (i == DATA_GRID.Columns.Count - 1)
+                            if (i == DataGrid.Columns.Count - 1)
                             {
                                 lastRun = true;
                             }
@@ -560,7 +560,7 @@ namespace Registration
         
         private void OnSearchMenuItemClicked(object sender, EventArgs e)
         {
-            var form4 = new SearchForm(DATA_GRID);
+            var form4 = new SearchForm(DataGrid);
             form4.Show();
         }
 
@@ -577,7 +577,7 @@ namespace Registration
 
         private void OnColumnsClicked(object sender, EventArgs e)
         {
-           var frm = new ColumnEditForm(DATA_GRID);
+           var frm = new ColumnEditForm(DataGrid);
            frm.Show();
         }
 
@@ -589,7 +589,7 @@ namespace Registration
 
         private void OnGraphToolClicked(object sender, EventArgs e)
         {
-            var frm = new GraphForm(DATA_GRID);
+            var frm = new GraphForm(DataGrid);
             frm.Show();
         }
 
@@ -615,7 +615,7 @@ namespace Registration
 
         private void OnSortClicked(object sender, EventArgs e)
         {
-            var frm = new SortForm(DATA_GRID);
+            var frm = new SortForm(DataGrid);
             frm.Show();
         }
     }

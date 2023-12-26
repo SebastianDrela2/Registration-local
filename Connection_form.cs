@@ -18,7 +18,7 @@ namespace Registration
         public ConnectionForm(MainWindow mainWindow)
         {
             _mainWindow = mainWindow;
-            _dataGridView = mainWindow.DATA_GRID;
+            _dataGridView = mainWindow.DataGrid;
 
             InitializeComponent();
         }

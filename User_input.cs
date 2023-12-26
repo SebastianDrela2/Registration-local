@@ -34,7 +34,7 @@ namespace Registration
             TxtBoxList.Clear();
             
             var labelList = new List<Label>();
-            for (var i = 1; i < _mainWindow.DATA_GRID.Columns.Count; i++)
+            for (var i = 1; i < _mainWindow.DataGrid.Columns.Count; i++)
             {
                 TxtBoxList.Add(new TextBox());
                 labelList.Add(new Label());
@@ -46,7 +46,7 @@ namespace Registration
                 Controls.Add(txtbox);
 
                 label.Location = new Point(posx - 100, posy);
-                label.Text = _mainWindow.DATA_GRID.Columns[i].HeaderText + @":";
+                label.Text = _mainWindow.DataGrid.Columns[i].HeaderText + @":";
                 Controls.Add(label);
 
                 posy += 36;
@@ -58,7 +58,7 @@ namespace Registration
 
         private void OnOkClicked(object sender, EventArgs e)
         {
-            _mainWindow.DATA_GRID.Rows.Add();
+            _mainWindow.DataGrid.Rows.Add();
            
             if (_mainWindow.OnlineLabelStatus.ForeColor == Color.Green)
             {
@@ -83,47 +83,47 @@ namespace Registration
                      
                 };
                 command.ExecuteNonQuery();
-                var rowCounter = _mainWindow.DATA_GRID.Rows.Count;
-                var columnCounter = _mainWindow.DATA_GRID.Columns.Count;
+                var rowCounter = _mainWindow.DataGrid.Rows.Count;
+                var columnCounter = _mainWindow.DataGrid.Columns.Count;
 
                 for (var j = 1; j < columnCounter; j++)
                 {
-                    _mainWindow.DATA_GRID.Rows[rowCounter - 1].Cells[j].Value = TxtBoxList[j - 1].Text;
+                    _mainWindow.DataGrid.Rows[rowCounter - 1].Cells[j].Value = TxtBoxList[j - 1].Text;
                 }
 
-                IdCount = int.Parse(_mainWindow.DATA_GRID.Rows[rowCounter - 2].Cells[0].Value.ToString()) + 1;
-                _mainWindow.DATA_GRID.Rows[rowCounter - 1].Cells[0].Value = IdCount.ToString();
+                IdCount = int.Parse(_mainWindow.DataGrid.Rows[rowCounter - 2].Cells[0].Value.ToString()) + 1;
+                _mainWindow.DataGrid.Rows[rowCounter - 1].Cells[0].Value = IdCount.ToString();
 
                 TxtBoxList.Clear();
             }
             else if (_mainWindow.OnlineLabelStatus.ForeColor != Color.Green)
             {
-                var row_counter = _mainWindow.DATA_GRID.Rows.Count;
-                var column_counter = _mainWindow.DATA_GRID.Columns.Count;
+                var row_counter = _mainWindow.DataGrid.Rows.Count;
+                var column_counter = _mainWindow.DataGrid.Columns.Count;
                 _mainWindow.CellEdited = true;
 
                 for (var n = 1; n < column_counter; n++)
                 {
-                    _mainWindow.DATA_GRID.Rows[row_counter-1].Cells[n].Value = TxtBoxList[n-1].Text;
+                    _mainWindow.DataGrid.Rows[row_counter-1].Cells[n].Value = TxtBoxList[n-1].Text;
                 }
                 if (row_counter == 1)
                 {
                     IdCount = 1;
-                    _mainWindow.DATA_GRID.Rows[row_counter - 1].Cells[0].Value = IdCount.ToString();
+                    _mainWindow.DataGrid.Rows[row_counter - 1].Cells[0].Value = IdCount.ToString();
                 }
                 else if (row_counter > 1)
                 {
-                    IdCount = int.Parse(_mainWindow.DATA_GRID.Rows[row_counter - 2].Cells[0].Value.ToString()) + 1;
-                    _mainWindow.DATA_GRID.Rows[row_counter - 1].Cells[0].Value = IdCount.ToString();
+                    IdCount = int.Parse(_mainWindow.DataGrid.Rows[row_counter - 2].Cells[0].Value.ToString()) + 1;
+                    _mainWindow.DataGrid.Rows[row_counter - 1].Cells[0].Value = IdCount.ToString();
                 }
 
-                for (var v = 0; v < _mainWindow.DATA_GRID.Columns.Count; v++)
+                for (var v = 0; v < _mainWindow.DataGrid.Columns.Count; v++)
                 {
-                    for (var p = 0; p < _mainWindow.DATA_GRID.Rows.Count; p++)
+                    for (var p = 0; p < _mainWindow.DataGrid.Rows.Count; p++)
                     {
-                        if (string.IsNullOrEmpty(_mainWindow.DATA_GRID.Rows[p].Cells[v].Value as string))
+                        if (string.IsNullOrEmpty(_mainWindow.DataGrid.Rows[p].Cells[v].Value as string))
                         {
-                            _mainWindow.DATA_GRID.Rows[p].Cells[v].Value = "N/A";
+                            _mainWindow.DataGrid.Rows[p].Cells[v].Value = "N/A";
                         }
 
                     }
@@ -139,7 +139,7 @@ namespace Registration
             if (_mainWindow.OnlineLabelStatus.ForeColor == Color.Green)
             {
                 var counter = 1;
-                for (var j = _mainWindow.ResultColumn; j < _mainWindow.DATA_GRID.Columns.Count; j++)
+                for (var j = _mainWindow.ResultColumn; j < _mainWindow.DataGrid.Columns.Count; j++)
                 {
                     TxtBoxList[TxtBoxList.Count - counter].Enabled = false;
                     counter++;
