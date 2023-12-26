@@ -31,14 +31,14 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
-            this.DATA_GRID = new System.Windows.Forms.DataGridView();
+            this.DataGrid = new System.Windows.Forms.DataGridView();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Name_ = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Surname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.RegistrationStatus = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BTN_ADD = new System.Windows.Forms.Button();
-            this.LINK_LBL_GITHUB = new System.Windows.Forms.LinkLabel();
-            this.LBL_GiTHUB = new System.Windows.Forms.Label();
+            this._buttonAdd = new System.Windows.Forms.Button();
+            this._labelGithubLink = new System.Windows.Forms.LinkLabel();
+            this._labelGithubPrefix = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,25 +71,25 @@
             this.LBL_CONNECTION = new System.Windows.Forms.Label();
             this._labelConnectionStatus = new System.Windows.Forms.Label();
             this._buttonSqlInfo = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.DATA_GRID)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGrid)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.IMG_BOX_TITLE)).BeginInit();
             this.SuspendLayout();
             // 
-            // DATA_GRID
+            // DataGrid
             // 
-            this.DATA_GRID.AllowDrop = true;
-            this.DATA_GRID.AllowUserToAddRows = false;
-            this.DATA_GRID.AllowUserToDeleteRows = false;
-            this.DATA_GRID.AllowUserToResizeColumns = false;
+            this.DataGrid.AllowDrop = true;
+            this.DataGrid.AllowUserToAddRows = false;
+            this.DataGrid.AllowUserToDeleteRows = false;
+            this.DataGrid.AllowUserToResizeColumns = false;
             dataGridViewCellStyle1.NullValue = null;
-            this.DATA_GRID.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.DATA_GRID.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.DATA_GRID.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
-            this.DATA_GRID.BackgroundColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.DATA_GRID.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
-            this.DATA_GRID.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DATA_GRID.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.DataGrid.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.DataGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.DataGrid.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
+            this.DataGrid.BackgroundColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.DataGrid.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.None;
+            this.DataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ID,
             this.Name_,
             this.Surname,
@@ -101,17 +101,17 @@
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.DATA_GRID.DefaultCellStyle = dataGridViewCellStyle2;
-            this.DATA_GRID.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
-            this.DATA_GRID.GridColor = System.Drawing.SystemColors.ButtonShadow;
-            this.DATA_GRID.Location = new System.Drawing.Point(22, 127);
-            this.DATA_GRID.Name = "DATA_GRID";
-            this.DATA_GRID.RowTemplate.Height = 25;
-            this.DATA_GRID.Size = new System.Drawing.Size(525, 246);
-            this.DATA_GRID.TabIndex = 5;
-            this.DATA_GRID.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.OnCellBeginEdit);
+            this.DataGrid.DefaultCellStyle = dataGridViewCellStyle2;
+            this.DataGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
+            this.DataGrid.GridColor = System.Drawing.SystemColors.ButtonShadow;
+            this.DataGrid.Location = new System.Drawing.Point(22, 127);
+            this.DataGrid.Name = "DataGrid";
+            this.DataGrid.RowTemplate.Height = 25;
+            this.DataGrid.Size = new System.Drawing.Size(525, 246);
+            this.DataGrid.TabIndex = 5;
+            this.DataGrid.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.OnCellBeginEdit);
             
-            this.DATA_GRID.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnDataGridCellValueChanged);
+            this.DataGrid.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.OnDataGridCellValueChanged);
             // 
             // ID
             // 
@@ -133,38 +133,38 @@
             this.RegistrationStatus.HeaderText = "RegStatus";
             this.RegistrationStatus.Name = "RegistrationStatus";
             // 
-            // BTN_ADD
+            // _buttonAdd
             // 
-            this.BTN_ADD.Location = new System.Drawing.Point(23, 89);
-            this.BTN_ADD.Name = "BTN_ADD";
-            this.BTN_ADD.Size = new System.Drawing.Size(83, 30);
-            this.BTN_ADD.TabIndex = 6;
-            this.BTN_ADD.Text = "ADD ROW";
-            this.BTN_ADD.UseVisualStyleBackColor = true;
-            this.BTN_ADD.Click += new System.EventHandler(this.OnAddClicked);
+            this._buttonAdd.Location = new System.Drawing.Point(23, 89);
+            this._buttonAdd.Name = "_buttonAdd";
+            this._buttonAdd.Size = new System.Drawing.Size(83, 30);
+            this._buttonAdd.TabIndex = 6;
+            this._buttonAdd.Text = "ADD ROW";
+            this._buttonAdd.UseVisualStyleBackColor = true;
+            this._buttonAdd.Click += new System.EventHandler(this.OnAddClicked);
             // 
-            // LINK_LBL_GITHUB
+            // _labelGithubLink
             // 
-            this.LINK_LBL_GITHUB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.LINK_LBL_GITHUB.AutoSize = true;
-            this.LINK_LBL_GITHUB.Location = new System.Drawing.Point(463, 376);
-            this.LINK_LBL_GITHUB.Name = "LINK_LBL_GITHUB";
-            this.LINK_LBL_GITHUB.Size = new System.Drawing.Size(229, 13);
-            this.LINK_LBL_GITHUB.TabIndex = 8;
-            this.LINK_LBL_GITHUB.TabStop = true;
-            this.LINK_LBL_GITHUB.Text = "https://github.com/SebastianDrela2";
-            this.LINK_LBL_GITHUB.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OnGithubLinkClicked);
+            this._labelGithubLink.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._labelGithubLink.AutoSize = true;
+            this._labelGithubLink.Location = new System.Drawing.Point(463, 376);
+            this._labelGithubLink.Name = "_labelGithubLink";
+            this._labelGithubLink.Size = new System.Drawing.Size(229, 13);
+            this._labelGithubLink.TabIndex = 8;
+            this._labelGithubLink.TabStop = true;
+            this._labelGithubLink.Text = "https://github.com/SebastianDrela2";
+            this._labelGithubLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OnGithubLinkClicked);
             // 
-            // LBL_GiTHUB
+            // _labelGithubPrefix
             // 
-            this.LBL_GiTHUB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.LBL_GiTHUB.AutoSize = true;
-            this.LBL_GiTHUB.Font = new System.Drawing.Font("Sitka Subheading", 9F);
-            this.LBL_GiTHUB.Location = new System.Drawing.Point(417, 374);
-            this.LBL_GiTHUB.Name = "LBL_GiTHUB";
-            this.LBL_GiTHUB.Size = new System.Drawing.Size(48, 18);
-            this.LBL_GiTHUB.TabIndex = 9;
-            this.LBL_GiTHUB.Text = "Github:";
+            this._labelGithubPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._labelGithubPrefix.AutoSize = true;
+            this._labelGithubPrefix.Font = new System.Drawing.Font("Sitka Subheading", 9F);
+            this._labelGithubPrefix.Location = new System.Drawing.Point(417, 374);
+            this._labelGithubPrefix.Name = "_labelGithubPrefix";
+            this._labelGithubPrefix.Size = new System.Drawing.Size(48, 18);
+            this._labelGithubPrefix.TabIndex = 9;
+            this._labelGithubPrefix.Text = "Github:";
             
             // 
             // menuStrip1
@@ -433,10 +433,10 @@
             this.Controls.Add(this._labelConnectionStatus);
             this.Controls.Add(this.LBL_CONNECTION);
             this.Controls.Add(this.IMG_BOX_TITLE);
-            this.Controls.Add(this.LBL_GiTHUB);
-            this.Controls.Add(this.LINK_LBL_GITHUB);
-            this.Controls.Add(this.BTN_ADD);
-            this.Controls.Add(this.DATA_GRID);
+            this.Controls.Add(this._labelGithubPrefix);
+            this.Controls.Add(this._labelGithubLink);
+            this.Controls.Add(this._buttonAdd);
+            this.Controls.Add(this.DataGrid);
             this.Controls.Add(this.menuStrip1);
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
@@ -447,7 +447,7 @@
             this.Load += new System.EventHandler(this.OnLoad);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.OnKeyDown);
             this.Resize += new System.EventHandler(this.Form1_Resize);
-            ((System.ComponentModel.ISupportInitialize)(this.DATA_GRID)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DataGrid)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.IMG_BOX_TITLE)).EndInit();
@@ -457,16 +457,16 @@
         }
 
         #endregion
-        private Button BTN_ADD;
-        private LinkLabel LINK_LBL_GITHUB;
-        private Label LBL_GiTHUB;
+        private Button _buttonAdd;
+        private LinkLabel _labelGithubLink;
+        private Label _labelGithubPrefix;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem fileToolStripMenuItem;
         private ToolStripMenuItem openToolStripMenuItem;
         private ToolStripMenuItem saveToolStripMenuItem;
         private ToolStripMenuItem exitToolStripMenuItem;
         private ToolStripMenuItem newToolStripMenuItem;
-        public  DataGridView DATA_GRID;
+        public  DataGridView DataGrid;
         private ToolStripMenuItem saveAsToolStripMenuItem;
         private PictureBox IMG_BOX_TITLE;
         private ToolStripMenuItem editToolStripMenuItem;
