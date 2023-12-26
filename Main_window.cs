@@ -379,10 +379,9 @@ namespace Registration
         
         private void OnDataGridCellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            SetDataGridMetaData();
-
             if (DATA_GRID.SelectedCells.Count >= 1 )
             {
+                SetDataGridRunTimeData();
                 if (FirstPass == false)
                 {
                     FirstPass = true;
@@ -405,7 +404,7 @@ namespace Registration
             }
         }
 
-        private void SetDataGridMetaData()
+        private void SetDataGridRunTimeData()
         {
             SelectedRowIndex = DATA_GRID.SelectedCells[0].RowIndex;
             SelectedColumnIndex = DATA_GRID.SelectedCells[0].ColumnIndex;

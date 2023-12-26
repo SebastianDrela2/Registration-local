@@ -152,7 +152,7 @@
             this.LINK_LBL_GITHUB.Size = new System.Drawing.Size(229, 13);
             this.LINK_LBL_GITHUB.TabIndex = 8;
             this.LINK_LBL_GITHUB.TabStop = true;
-            this.LINK_LBL_GITHUB.Text = "https://github.com/Frosky404?tab=repositories";
+            this.LINK_LBL_GITHUB.Text = "https://github.com/SebastianDrela2";
             this.LINK_LBL_GITHUB.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.OnGithubLinkClicked);
             // 
             // LBL_GiTHUB
