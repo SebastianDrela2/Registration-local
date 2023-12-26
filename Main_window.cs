@@ -127,15 +127,19 @@ namespace Registration
             }
 
             PopulateDataGridFromEntireData();
-            
-            _originalFormSize = new Rectangle(this.Location.X, this.Location.Y, this.Size.Width, this.Size.Height);
+            SetRectanglesProperties();
+        }
+
+        private void SetRectanglesProperties()
+        {
+            _originalFormSize = new Rectangle(Location.X, Location.Y, Size.Width, Size.Height);
             _buttonOriginalRectangle = new Rectangle(BTN_ADD.Location.X, BTN_ADD.Location.Y, BTN_ADD.Width, BTN_ADD.Height);
-            
+
             _dataGridOriginalRectangle = new Rectangle(DATA_GRID.Location.X, DATA_GRID.Location.Y, DATA_GRID.Width, DATA_GRID.Height);
             _titleImageRectangle = new Rectangle(IMG_BOX_TITLE.Location.X, IMG_BOX_TITLE.Location.Y, IMG_BOX_TITLE.Width, IMG_BOX_TITLE.Height);
             _githubTextOriginalRectangle = new Rectangle(LBL_GiTHUB.Location.X, LBL_GiTHUB.Location.Y, LBL_GiTHUB.Width, LBL_GiTHUB.Height);
             _linkGitHubTextOriginalRectangle = new Rectangle(LINK_LBL_GITHUB.Location.X, LINK_LBL_GITHUB.Location.Y, LINK_LBL_GITHUB.Width, LINK_LBL_GITHUB.Height);
-           
+
             _sqlInfoRectangle = new Rectangle(_buttonSqlInfo.Location.X, _buttonSqlInfo.Location.Y, _buttonSqlInfo.Width, _buttonSqlInfo.Height);
             _connectionStringRectangle = new Rectangle(LBL_CONNECTION.Location.X, LBL_CONNECTION.Location.Y, LBL_CONNECTION.Width, LBL_CONNECTION.Height);
             _connectionStatusRectangle = new Rectangle(_labelConnectionStatus.Location.X, _labelConnectionStatus.Location.Y, _labelConnectionStatus.Width, _labelConnectionStatus.Height);
@@ -299,23 +303,30 @@ namespace Registration
             }
 
             var columns = new List<string>();
+
             for (var k = 0; k < DATA_GRID.Columns.Count; k++)
             {
                 columns.Add(DATA_GRID.Columns[k].HeaderText);
             }
             CellEdited = false;
+
+            WriteAllData(columns);
+        }
+
+        private void WriteAllData(List<string> columnsList)
+        {
             if (File.Exists(Path))
             {
                 Console.WriteLine(Path);
                 File.Create(Path).Close();
                 File.WriteAllLines(Path, UserInput.EntireData);
-                File.WriteAllLines(Application.StartupPath + "/Columns/" + DatabaseEntry.path_no_txt + "_columns_data.txt", columns);
+                File.WriteAllLines(Application.StartupPath + "/Columns/" + DatabaseEntry.path_no_txt + "_columns_data.txt", columnsList);
             }
-            
+
             File.Create(Application.StartupPath + "/Data/entire_data.txt").Close();
             File.WriteAllLines(Application.StartupPath + "/Data/entire_data.txt", UserInput.EntireData);
             File.Create(Application.StartupPath + "/Columns/entire_data_columns_data.txt").Close();
-            File.WriteAllLines(Application.StartupPath + "/Columns/entire_data_columns_data.txt" , columns );
+            File.WriteAllLines(Application.StartupPath + "/Columns/entire_data_columns_data.txt", columnsList);
         }
             
         private void OnSaveClicked(object sender, EventArgs e)
@@ -329,14 +340,14 @@ namespace Registration
         {
             if (CellEdited)
             {
-                DialogResult dialogresult = MessageBox.Show("Unsaved Changes close?", "Exit", MessageBoxButtons.YesNo,
+                var dialogResult = MessageBox.Show(@"Unsaved Changes close?", @"Exit", MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question);
-                if (dialogresult != DialogResult.No)
+                if (dialogResult != DialogResult.No)
                 {
                     e.Cancel = false;
                 }
 
-                if (dialogresult != DialogResult.Yes)
+                if (dialogResult != DialogResult.Yes)
                 {
                     e.Cancel = true;
                 }
@@ -368,16 +379,10 @@ namespace Registration
         
         private void OnDataGridCellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            SetDataGridMetaData();
+
             if (DATA_GRID.SelectedCells.Count >= 1 )
             {
-                SelectedRowIndex = DATA_GRID.SelectedCells[0].RowIndex;
-                SelectedColumnIndex = DATA_GRID.SelectedCells[0].ColumnIndex;
-                RowName = DATA_GRID.Rows[SelectedRowIndex].ToString();
-                ColumnName = DATA_GRID.Columns[SelectedColumnIndex].HeaderText;
-                var selectedRow = DATA_GRID.Rows[SelectedRowIndex];
-                CurrentCellValue = selectedRow.Cells[SelectedColumnIndex].Value.ToString();
-                IdName = DATA_GRID.Rows[SelectedRowIndex].Cells[0].Value.ToString();
-
                 if (FirstPass == false)
                 {
                     FirstPass = true;
@@ -398,6 +403,17 @@ namespace Registration
                     command.ExecuteNonQuery();
                 }
             }
+        }
+
+        private void SetDataGridMetaData()
+        {
+            SelectedRowIndex = DATA_GRID.SelectedCells[0].RowIndex;
+            SelectedColumnIndex = DATA_GRID.SelectedCells[0].ColumnIndex;
+            RowName = DATA_GRID.Rows[SelectedRowIndex].ToString();
+            ColumnName = DATA_GRID.Columns[SelectedColumnIndex].HeaderText;
+            var selectedRow = DATA_GRID.Rows[SelectedRowIndex];
+            CurrentCellValue = selectedRow.Cells[SelectedColumnIndex].Value.ToString();
+            IdName = DATA_GRID.Rows[SelectedRowIndex].Cells[0].Value.ToString();
         }
 
         private void OnCellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
@@ -497,8 +513,8 @@ namespace Registration
         private void newToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             SetConnectionToOffline();
-            var f3 = new DatabaseEntry(this);
-            f3.Show();
+            var databaseEntry = new DatabaseEntry(this);
+            databaseEntry.Show();
         }
 
         private void OnSaveAsClicked(object sender, EventArgs e)
@@ -562,7 +578,7 @@ namespace Registration
             MessageBox.Show(@"Ammount of Columns in SQl server : " + ResultColumn);
         }
 
-        private void columnsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void OnColumnsClicked(object sender, EventArgs e)
         {
            var frm = new ColumnEditForm(DATA_GRID);
            frm.Show();
@@ -602,7 +618,7 @@ namespace Registration
             }
         }
 
-        private void sortToolStripMenuItem_Click_2(object sender, EventArgs e)
+        private void OnSortClicked(object sender, EventArgs e)
         {
             var frm = new SortForm(DATA_GRID);
             frm.Show();
